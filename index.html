@@ -4,99 +4,569 @@
     <title>Soccer Card Game</title>
 
     <style>
-        body {
-            font-family: Arial, sans-serif;
-            text-align: center;
-            background: #111;
-            color: white;
-            margin: 0;
-            padding: 50px;
+        * {
+            box-sizing: border-box;
         }
 
-        h1 {
-            font-size: 40px;
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background: #101010;
+            color: white;
+        }
+
+        header {
+            background: #181818;
+            padding: 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        header h1 {
+            margin: 0;
+        }
+
+        .coins {
+            font-size: 20px;
+            font-weight: bold;
+        }
+
+        nav {
+            background: #202020;
+            padding: 15px;
+            text-align: center;
+        }
+
+        nav button {
+            margin: 5px;
         }
 
         button {
             background: white;
             color: black;
             border: none;
-            padding: 15px 30px;
-            font-size: 18px;
-            border-radius: 10px;
+            padding: 12px 20px;
+            border-radius: 8px;
             cursor: pointer;
+            font-size: 16px;
         }
 
         button:hover {
-            transform: scale(1.05);
+            transform: scale(1.03);
         }
 
-        #card {
-            margin: 30px auto;
+        .page {
             padding: 30px;
-            width: 250px;
-            background: #222;
-            border-radius: 15px;
+            text-align: center;
+        }
+
+        .card {
+            width: 240px;
+            min-height: 330px;
+            margin: 20px auto;
+            padding: 25px;
+            border-radius: 18px;
+            background: linear-gradient(145deg, #303030, #151515);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+        }
+
+        .rating {
+            font-size: 50px;
+            font-weight: bold;
+        }
+
+        .player-name {
+            font-size: 25px;
+            font-weight: bold;
+            margin: 15px 0;
+        }
+
+        .price {
+            color: #6cff7a;
+            font-size: 20px;
+            margin: 15px 0;
+        }
+
+        .collection {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 20px;
+        }
+
+        .collection .card {
+            margin: 0;
+        }
+
+        .hidden {
             display: none;
+        }
+
+        .manage-card {
+            background: #202020;
+            padding: 20px;
+            border-radius: 12px;
+            max-width: 500px;
+            margin: 20px auto;
+        }
+
+        .manage-card button {
+            background: #ff5555;
+            color: white;
         }
     </style>
 </head>
 
 <body>
 
-    <h1>⚽ Soccer Card Game</h1>
+<header>
+    <h1>⚽ Soccer Cards</h1>
 
-    <p>Collect players and build your dream team.</p>
-
-    <button onclick="openPack()">Open Pack</button>
-
-    <div id="card">
-        <h2 id="playerName"></h2>
-        <p id="position"></p>
-        <h3 id="rating"></h3>
+    <div class="coins">
+        💰 <span id="coins">20,000,000</span>
     </div>
+</header>
 
-    <script>
-        const players = [
-            {
-                name: "Lionel Messi",
-                position: "RW",
-                rating: 90
-            },
-            {
-                name: "Cristiano Ronaldo",
-                position: "ST",
-                rating: 89
-            },
-            {
-                name: "Kylian Mbappe",
-                position: "ST",
-                rating: 91
-            },
-            {
-                name: "Jude Bellingham",
-                position: "CM",
-                rating: 90
-            }
-        ];
+<nav>
+    <button onclick="showPage('home')">Home</button>
+    <button onclick="showPage('packs')">Packs</button>
+    <button onclick="showPage('collection')">Collection</button>
+    <button onclick="showPage('manage')">Manage Cards</button>
+</nav>
 
-        function openPack() {
 
-            const randomPlayer =
-                players[Math.floor(Math.random() * players.length)];
+<!-- HOME -->
 
-            document.getElementById("playerName").textContent =
-                randomPlayer.name;
+<div id="home" class="page">
 
-            document.getElementById("position").textContent =
-                "Position: " + randomPlayer.position;
+    <h2>Welcome to Soccer Cards</h2>
 
-            document.getElementById("rating").textContent =
-                "Rating: " + randomPlayer.rating;
+    <p>Collect players, sell cards and build your team.</p>
 
-            document.getElementById("card").style.display = "block";
+    <button onclick="showPage('packs')">
+        Open Packs
+    </button>
+
+</div>
+
+
+<!-- PACKS -->
+
+<div id="packs" class="page hidden">
+
+    <h2>📦 Packs</h2>
+
+    <p>Get a random player from anywhere in the world.</p>
+
+    <h3>Random Player Pack</h3>
+
+    <p>Cost: 💰 5,000,000</p>
+
+    <button onclick="openPack()">
+        Buy Random Card
+    </button>
+
+    <div id="newCard"></div>
+
+</div>
+
+
+<!-- COLLECTION -->
+
+<div id="collection" class="page hidden">
+
+    <h2>📚 My Collection</h2>
+
+    <div id="collectionCards" class="collection"></div>
+
+</div>
+
+
+<!-- MANAGE CARDS -->
+
+<div id="manage" class="page hidden">
+
+    <h2>💼 Manage Cards</h2>
+
+    <p>Sell cards you own for their current transfer-market value.</p>
+
+    <div id="manageCards"></div>
+
+</div>
+
+
+<script>
+
+    /*
+    =====================================
+    PLAYER DATABASE
+    =====================================
+
+    ADD YOUR PLAYERS HERE.
+
+    You can add as many players as you want.
+
+    Example:
+
+    {
+        name: "Player Name",
+        team: "Team",
+        nation: "Nation",
+        rating: 85,
+        price: 12000000
+    }
+
+    */
+
+    const players = [
+
+        {
+            name: "Lionel Messi",
+            team: "Inter Miami",
+            nation: "Argentina",
+            rating: 90,
+            price: 50000000
+        },
+
+        {
+            name: "Cristiano Ronaldo",
+            team: "Al Nassr",
+            nation: "Portugal",
+            rating: 89,
+            price: 45000000
+        },
+
+        {
+            name: "Kylian Mbappe",
+            team: "Real Madrid",
+            nation: "France",
+            rating: 91,
+            price: 180000000
+        },
+
+        {
+            name: "Jude Bellingham",
+            team: "Real Madrid",
+            nation: "England",
+            rating: 90,
+            price: 150000000
+        },
+
+        {
+            name: "Lamine Yamal",
+            team: "Barcelona",
+            nation: "Spain",
+            rating: 89,
+            price: 120000000
+        },
+
+        {
+            name: "Vinicius Junior",
+            team: "Real Madrid",
+            nation: "Brazil",
+            rating: 90,
+            price: 160000000
         }
-    </script>
+
+    ];
+
+
+    /*
+    =====================================
+    PLAYER DATA
+    =====================================
+    */
+
+    let coins = 20000000;
+
+    let collection = [];
+
+
+    /*
+    =====================================
+    PAGE SYSTEM
+    =====================================
+    */
+
+    function showPage(pageName) {
+
+        document.getElementById("home").classList.add("hidden");
+        document.getElementById("packs").classList.add("hidden");
+        document.getElementById("collection").classList.add("hidden");
+        document.getElementById("manage").classList.add("hidden");
+
+        document.getElementById(pageName).classList.remove("hidden");
+
+        if (pageName === "collection") {
+            displayCollection();
+        }
+
+        if (pageName === "manage") {
+            displayManageCards();
+        }
+    }
+
+
+    /*
+    =====================================
+    UPDATE COINS
+    =====================================
+    */
+
+    function updateCoins() {
+
+        document.getElementById("coins").textContent =
+            coins.toLocaleString();
+
+    }
+
+
+    /*
+    =====================================
+    OPEN RANDOM PACK
+    =====================================
+    */
+
+    function openPack() {
+
+        const packPrice = 5000000;
+
+        if (coins < packPrice) {
+
+            alert("You don't have enough coins!");
+
+            return;
+        }
+
+
+        coins -= packPrice;
+
+
+        const randomIndex =
+            Math.floor(Math.random() * players.length);
+
+
+        const player = players[randomIndex];
+
+
+        collection.push(player);
+
+
+        updateCoins();
+
+        displayNewCard(player);
+
+        displayCollection();
+
+    }
+
+
+    /*
+    =====================================
+    DISPLAY NEW CARD
+    =====================================
+    */
+
+    function displayNewCard(player) {
+
+        document.getElementById("newCard").innerHTML = `
+
+            <div class="card">
+
+                <div class="rating">
+                    ${player.rating}
+                </div>
+
+                <div class="player-name">
+                    ${player.name}
+                </div>
+
+                <p>${player.team}</p>
+
+                <p>🏳️ ${player.nation}</p>
+
+                <div class="price">
+                    💰 ${formatMoney(player.price)}
+                </div>
+
+            </div>
+
+        `;
+
+    }
+
+
+    /*
+    =====================================
+    COLLECTION
+    =====================================
+    */
+
+    function displayCollection() {
+
+        const container =
+            document.getElementById("collectionCards");
+
+
+        if (collection.length === 0) {
+
+            container.innerHTML =
+                "<p>You don't have any cards yet.</p>";
+
+            return;
+        }
+
+
+        container.innerHTML = "";
+
+
+        collection.forEach((player, index) => {
+
+            container.innerHTML += `
+
+                <div class="card">
+
+                    <div class="rating">
+                        ${player.rating}
+                    </div>
+
+                    <div class="player-name">
+                        ${player.name}
+                    </div>
+
+                    <p>${player.team}</p>
+
+                    <p>🏳️ ${player.nation}</p>
+
+                    <div class="price">
+                        💰 ${formatMoney(player.price)}
+                    </div>
+
+                </div>
+
+            `;
+
+        });
+
+    }
+
+
+    /*
+    =====================================
+    MANAGE CARDS
+    =====================================
+    */
+
+    function displayManageCards() {
+
+        const container =
+            document.getElementById("manageCards");
+
+
+        if (collection.length === 0) {
+
+            container.innerHTML =
+                "<p>You don't have any cards to manage.</p>";
+
+            return;
+        }
+
+
+        container.innerHTML = "";
+
+
+        collection.forEach((player, index) => {
+
+            container.innerHTML += `
+
+                <div class="manage-card">
+
+                    <h2>${player.name}</h2>
+
+                    <p>
+                        ${player.team} • ${player.nation}
+                    </p>
+
+                    <p>
+                        Rating: ${player.rating}
+                    </p>
+
+                    <p>
+                        Transfer Market:
+                        <strong>
+                            ${formatMoney(player.price)}
+                        </strong>
+                    </p>
+
+                    <button onclick="sellCard(${index})">
+                        Sell Card
+                    </button>
+
+                </div>
+
+            `;
+
+        });
+
+    }
+
+
+    /*
+    =====================================
+    SELL CARD
+    =====================================
+    */
+
+    function sellCard(index) {
+
+        const player = collection[index];
+
+
+        coins += player.price;
+
+
+        collection.splice(index, 1);
+
+
+        updateCoins();
+
+        displayManageCards();
+
+        displayCollection();
+
+
+        alert(
+            player.name +
+            " sold for " +
+            formatMoney(player.price)
+        );
+
+    }
+
+
+    /*
+    =====================================
+    FORMAT MONEY
+    =====================================
+    */
+
+    function formatMoney(amount) {
+
+        return "$" + amount.toLocaleString();
+
+    }
+
+
+    /*
+    =====================================
+    START GAME
+    =====================================
+    */
+
+    updateCoins();
+
+</script>
 
 </body>
 </html>
