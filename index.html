@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Soccer Card Game</title>
+
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            background: #111;
+            color: white;
+            margin: 0;
+            padding: 50px;
+        }
+
+        h1 {
+            font-size: 40px;
+        }
+
+        button {
+            background: white;
+            color: black;
+            border: none;
+            padding: 15px 30px;
+            font-size: 18px;
+            border-radius: 10px;
+            cursor: pointer;
+        }
+
+        button:hover {
+            transform: scale(1.05);
+        }
+
+        #card {
+            margin: 30px auto;
+            padding: 30px;
+            width: 250px;
+            background: #222;
+            border-radius: 15px;
+            display: none;
+        }
+    </style>
+</head>
+
+<body>
+
+    <h1>⚽ Soccer Card Game</h1>
+
+    <p>Collect players and build your dream team.</p>
+
+    <button onclick="openPack()">Open Pack</button>
+
+    <div id="card">
+        <h2 id="playerName"></h2>
+        <p id="position"></p>
+        <h3 id="rating"></h3>
+    </div>
+
+    <script>
+        const players = [
+            {
+                name: "Lionel Messi",
+                position: "RW",
+                rating: 90
+            },
+            {
+                name: "Cristiano Ronaldo",
+                position: "ST",
+                rating: 89
+            },
+            {
+                name: "Kylian Mbappe",
+                position: "ST",
+                rating: 91
+            },
+            {
+                name: "Jude Bellingham",
+                position: "CM",
+                rating: 90
+            }
+        ];
+
+        function openPack() {
+
+            const randomPlayer =
+                players[Math.floor(Math.random() * players.length)];
+
+            document.getElementById("playerName").textContent =
+                randomPlayer.name;
+
+            document.getElementById("position").textContent =
+                "Position: " + randomPlayer.position;
+
+            document.getElementById("rating").textContent =
+                "Rating: " + randomPlayer.rating;
+
+            document.getElementById("card").style.display = "block";
+        }
+    </script>
+
+</body>
+</html>
