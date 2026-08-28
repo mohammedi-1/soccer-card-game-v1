@@ -61,78 +61,265 @@
             text-align: center;
         }
 
-        .card {
-            width: 240px;
-            min-height: 330px;
-            margin: 20px auto;
-            padding: 25px;
-            border-radius: 18px;
-            background: linear-gradient(145deg, #303030, #151515);
-            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
-        }
-
-        .rating {
-            font-size: 50px;
-            font-weight: bold;
-        }
-
-        .player-name {
-            font-size: 25px;
-            font-weight: bold;
-            margin: 15px 0;
-        }
-
-        .price {
-            color: #6cff7a;
-            font-size: 20px;
-            margin: 15px 0;
-        }
-
-        .collection {
-            display: flex;
-            flex-wrap: wrap;
-            justify-content: center;
-            gap: 20px;
-        }
-
-        .collection .card {
-            margin: 0;
-        }
-
         .hidden {
             display: none;
         }
 
-        .manage-card {
-            background: #202020;
-            padding: 20px;
-            border-radius: 12px;
-            max-width: 500px;
-            margin: 20px auto;
+
+        /* =========================
+           CARD GRID
+        ========================= */
+
+        .collection {
+            display: grid;
+            grid-template-columns: repeat(3, 190px);
+            justify-content: center;
+            gap: 25px;
+            margin-top: 30px;
         }
 
-        .manage-card button {
-            background: #ff5555;
-            color: white;
+
+        /* =========================
+           PLAYER CARD
+        ========================= */
+
+        .card {
+            width: 190px;
+            height: 280px;
+            position: relative;
+
+            padding: 18px;
+
+            border-radius: 18px;
+
+            background:
+                linear-gradient(
+                    145deg,
+                    #383838,
+                    #151515
+                );
+
+            border: 2px solid #555;
+
+            box-shadow:
+                0 10px 25px rgba(0,0,0,0.5);
+
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+
+            overflow: hidden;
         }
+
+
+        /* CARD TOP */
+
+        .card-top {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+        }
+
+
+        .rating {
+            font-size: 38px;
+            font-weight: bold;
+        }
+
+
+        .position {
+            font-size: 15px;
+            opacity: 0.8;
+        }
+
+
+        /* FLAG */
+
+        .flag {
+            font-size: 28px;
+            margin-top: 5px;
+        }
+
+
+        /* PLAYER */
+
+        .player-name {
+            font-size: 20px;
+            font-weight: bold;
+            margin-top: 10px;
+        }
+
+
+        .team {
+            font-size: 14px;
+            opacity: 0.8;
+        }
+
+
+        /* PRICE */
+
+        .price {
+            color: #6cff7a;
+            font-size: 16px;
+            font-weight: bold;
+        }
+
+
+        /* DUPLICATE INDICATOR */
+
+        .duplicate-count {
+
+            position: absolute;
+
+            top: 8px;
+            right: 8px;
+
+            width: 30px;
+            height: 30px;
+
+            background: #e53935;
+
+            color: white;
+
+            border-radius: 50%;
+
+            display: flex;
+
+            align-items: center;
+            justify-content: center;
+
+            font-weight: bold;
+
+            font-size: 15px;
+
+            border: 2px solid white;
+
+        }
+
+
+        /* MANAGE CARD */
+
+        .manage-card {
+
+            background: #202020;
+
+            padding: 15px;
+
+            border-radius: 12px;
+
+            width: 230px;
+
+            margin: 0 auto;
+
+        }
+
+
+        .manage-container {
+
+            display: grid;
+
+            grid-template-columns:
+                repeat(3, 230px);
+
+            justify-content: center;
+
+            gap: 25px;
+
+            margin-top: 30px;
+
+        }
+
+
+        .manage-card button {
+
+            background: #e53935;
+
+            color: white;
+
+            margin-top: 10px;
+
+        }
+
+
+        /* RESPONSIVE */
+
+        @media (max-width: 750px) {
+
+            .collection {
+
+                grid-template-columns:
+                    repeat(2, 190px);
+
+            }
+
+            .manage-container {
+
+                grid-template-columns:
+                    repeat(2, 230px);
+
+            }
+
+        }
+
+
+        @media (max-width: 500px) {
+
+            .collection {
+
+                grid-template-columns:
+                    repeat(1, 190px);
+
+            }
+
+            .manage-container {
+
+                grid-template-columns:
+                    repeat(1, 230px);
+
+            }
+
+        }
+
     </style>
 </head>
 
+
 <body>
 
+
 <header>
+
     <h1>⚽ Soccer Cards</h1>
 
     <div class="coins">
-        💰 <span id="coins">20,000,000</span>
+
+        💰 <span id="coins">
+            20,000,000
+        </span>
+
     </div>
+
 </header>
 
+
 <nav>
-    <button onclick="showPage('home')">Home</button>
-    <button onclick="showPage('packs')">Packs</button>
-    <button onclick="showPage('collection')">Collection</button>
-    <button onclick="showPage('manage')">Manage Cards</button>
+
+    <button onclick="showPage('home')">
+        Home
+    </button>
+
+    <button onclick="showPage('packs')">
+        Packs
+    </button>
+
+    <button onclick="showPage('collection')">
+        Collection
+    </button>
+
+    <button onclick="showPage('manage')">
+        Manage Cards
+    </button>
+
 </nav>
 
 
@@ -140,9 +327,13 @@
 
 <div id="home" class="page">
 
-    <h2>Welcome to Soccer Cards</h2>
+    <h2>
+        Welcome to Soccer Cards
+    </h2>
 
-    <p>Collect players, sell cards and build your team.</p>
+    <p>
+        Collect players, sell cards and build your dream team.
+    </p>
 
     <button onclick="showPage('packs')">
         Open Packs
@@ -157,11 +348,17 @@
 
     <h2>📦 Packs</h2>
 
-    <p>Get a random player from anywhere in the world.</p>
+    <p>
+        Get a random player from anywhere in the world.
+    </p>
 
-    <h3>Random Player Pack</h3>
+    <h3>
+        Random Player Pack
+    </h3>
 
-    <p>Cost: 💰 5,000,000</p>
+    <p>
+        Cost: 💰 5,000,000
+    </p>
 
     <button onclick="openPack()">
         Buy Random Card
@@ -176,215 +373,381 @@
 
 <div id="collection" class="page hidden">
 
-    <h2>📚 My Collection</h2>
+    <h2>
+        📚 My Collection
+    </h2>
 
-    <div id="collectionCards" class="collection"></div>
+    <div
+        id="collectionCards"
+        class="collection">
+    </div>
 
 </div>
 
 
-<!-- MANAGE CARDS -->
+<!-- MANAGE -->
 
 <div id="manage" class="page hidden">
 
-    <h2>💼 Manage Cards</h2>
+    <h2>
+        💼 Manage Cards
+    </h2>
 
-    <p>Sell cards you own for their current transfer-market value.</p>
+    <p>
+        Sell cards for their transfer-market value.
+    </p>
 
-    <div id="manageCards"></div>
+    <div
+        id="manageCards"
+        class="manage-container">
+    </div>
 
 </div>
 
 
 <script>
 
-    /*
-    =====================================
-    PLAYER DATABASE
-    =====================================
 
-    ADD YOUR PLAYERS HERE.
+/* =========================
+   PLAYER DATABASE
+========================= */
 
-    You can add as many players as you want.
-
-    Example:
+const players = [
 
     {
-        name: "Player Name",
-        team: "Team",
-        nation: "Nation",
-        rating: 85,
-        price: 12000000
+        name: "Lionel Messi",
+        team: "Inter Miami",
+        nation: "Argentina",
+        flag: "🇦🇷",
+        position: "RW",
+        rating: 90,
+        price: 50000000
+    },
+
+    {
+        name: "Cristiano Ronaldo",
+        team: "Al Nassr",
+        nation: "Portugal",
+        flag: "🇵🇹",
+        position: "ST",
+        rating: 89,
+        price: 45000000
+    },
+
+    {
+        name: "Kylian Mbappe",
+        team: "Real Madrid",
+        nation: "France",
+        flag: "🇫🇷",
+        position: "ST",
+        rating: 91,
+        price: 180000000
+    },
+
+    {
+        name: "Jude Bellingham",
+        team: "Real Madrid",
+        nation: "England",
+        flag: "🇬🇧",
+        position: "CM",
+        rating: 90,
+        price: 150000000
+    },
+
+    {
+        name: "Lamine Yamal",
+        team: "Barcelona",
+        nation: "Spain",
+        flag: "🇪🇸",
+        position: "RW",
+        rating: 89,
+        price: 120000000
+    },
+
+    {
+        name: "Vinicius Junior",
+        team: "Real Madrid",
+        nation: "Brazil",
+        flag: "🇧🇷",
+        position: "LW",
+        rating: 90,
+        price: 160000000
     }
 
-    */
-
-    const players = [
-
-        {
-            name: "Lionel Messi",
-            team: "Inter Miami",
-            nation: "Argentina",
-            rating: 90,
-            price: 50000000
-        },
-
-        {
-            name: "Cristiano Ronaldo",
-            team: "Al Nassr",
-            nation: "Portugal",
-            rating: 89,
-            price: 45000000
-        },
-
-        {
-            name: "Kylian Mbappe",
-            team: "Real Madrid",
-            nation: "France",
-            rating: 91,
-            price: 180000000
-        },
-
-        {
-            name: "Jude Bellingham",
-            team: "Real Madrid",
-            nation: "England",
-            rating: 90,
-            price: 150000000
-        },
-
-        {
-            name: "Lamine Yamal",
-            team: "Barcelona",
-            nation: "Spain",
-            rating: 89,
-            price: 120000000
-        },
-
-        {
-            name: "Vinicius Junior",
-            team: "Real Madrid",
-            nation: "Brazil",
-            rating: 90,
-            price: 160000000
-        }
-
-    ];
+];
 
 
-    /*
-    =====================================
-    PLAYER DATA
-    =====================================
-    */
+/* =========================
+   PLAYER DATA
+========================= */
 
-    let coins = 20000000;
+let coins = 20000000;
 
-    let collection = [];
+let collection = [];
 
 
-    /*
-    =====================================
-    PAGE SYSTEM
-    =====================================
-    */
+/* =========================
+   PAGE SYSTEM
+========================= */
 
-    function showPage(pageName) {
+function showPage(pageName) {
 
-        document.getElementById("home").classList.add("hidden");
-        document.getElementById("packs").classList.add("hidden");
-        document.getElementById("collection").classList.add("hidden");
-        document.getElementById("manage").classList.add("hidden");
+    document
+        .getElementById("home")
+        .classList.add("hidden");
 
-        document.getElementById(pageName).classList.remove("hidden");
+    document
+        .getElementById("packs")
+        .classList.add("hidden");
 
-        if (pageName === "collection") {
-            displayCollection();
-        }
+    document
+        .getElementById("collection")
+        .classList.add("hidden");
 
-        if (pageName === "manage") {
-            displayManageCards();
-        }
-    }
+    document
+        .getElementById("manage")
+        .classList.add("hidden");
 
 
-    /*
-    =====================================
-    UPDATE COINS
-    =====================================
-    */
-
-    function updateCoins() {
-
-        document.getElementById("coins").textContent =
-            coins.toLocaleString();
-
-    }
+    document
+        .getElementById(pageName)
+        .classList.remove("hidden");
 
 
-    /*
-    =====================================
-    OPEN RANDOM PACK
-    =====================================
-    */
-
-    function openPack() {
-
-        const packPrice = 5000000;
-
-        if (coins < packPrice) {
-
-            alert("You don't have enough coins!");
-
-            return;
-        }
-
-
-        coins -= packPrice;
-
-
-        const randomIndex =
-            Math.floor(Math.random() * players.length);
-
-
-        const player = players[randomIndex];
-
-
-        collection.push(player);
-
-
-        updateCoins();
-
-        displayNewCard(player);
+    if (pageName === "collection") {
 
         displayCollection();
 
     }
 
 
-    /*
-    =====================================
-    DISPLAY NEW CARD
-    =====================================
-    */
+    if (pageName === "manage") {
 
-    function displayNewCard(player) {
+        displayManageCards();
 
-        document.getElementById("newCard").innerHTML = `
+    }
 
-            <div class="card">
+}
 
-                <div class="rating">
-                    ${player.rating}
+
+/* =========================
+   COINS
+========================= */
+
+function updateCoins() {
+
+    document
+        .getElementById("coins")
+        .textContent =
+        coins.toLocaleString();
+
+}
+
+
+/* =========================
+   OPEN PACK
+========================= */
+
+function openPack() {
+
+    const packPrice = 5000000;
+
+
+    if (coins < packPrice) {
+
+        alert(
+            "You don't have enough coins!"
+        );
+
+        return;
+
+    }
+
+
+    coins -= packPrice;
+
+
+    const randomIndex =
+        Math.floor(
+            Math.random() *
+            players.length
+        );
+
+
+    const player =
+        players[randomIndex];
+
+
+    collection.push(player);
+
+
+    updateCoins();
+
+
+    displayNewCard(player);
+
+}
+
+
+/* =========================
+   DISPLAY NEW CARD
+========================= */
+
+function displayNewCard(player) {
+
+    document
+        .getElementById("newCard")
+        .innerHTML = `
+
+        <div class="card">
+
+            <div class="card-top">
+
+                <div>
+
+                    <div class="rating">
+                        ${player.rating}
+                    </div>
+
+                    <div class="position">
+                        ${player.position}
+                    </div>
+
                 </div>
+
+                <div class="flag">
+                    ${player.flag}
+                </div>
+
+            </div>
+
+
+            <div>
 
                 <div class="player-name">
                     ${player.name}
                 </div>
 
-                <p>${player.team}</p>
+                <div class="team">
+                    ${player.team}
+                </div>
 
-                <p>🏳️ ${player.nation}</p>
+            </div>
+
+
+            <div class="price">
+                💰 ${formatMoney(player.price)}
+            </div>
+
+        </div>
+
+    `;
+
+}
+
+
+/* =========================
+   COLLECTION
+========================= */
+
+function displayCollection() {
+
+    const container =
+        document.getElementById(
+            "collectionCards"
+        );
+
+
+    if (collection.length === 0) {
+
+        container.innerHTML =
+            "<p>You don't have any cards yet.</p>";
+
+        return;
+
+    }
+
+
+    container.innerHTML = "";
+
+
+    const grouped = {};
+
+
+    collection.forEach(player => {
+
+        if (!grouped[player.name]) {
+
+            grouped[player.name] = {
+
+                player: player,
+
+                count: 0
+
+            };
+
+        }
+
+        grouped[player.name].count++;
+
+    });
+
+
+    Object.values(grouped).forEach(data => {
+
+        const player = data.player;
+
+        const count = data.count;
+
+
+        container.innerHTML += `
+
+            <div class="card">
+
+                ${
+                    count > 1
+                    ?
+                    `<div class="duplicate-count">
+                        ${count}
+                    </div>`
+                    :
+                    ""
+                }
+
+
+                <div class="card-top">
+
+                    <div>
+
+                        <div class="rating">
+                            ${player.rating}
+                        </div>
+
+                        <div class="position">
+                            ${player.position}
+                        </div>
+
+                    </div>
+
+                    <div class="flag">
+                        ${player.flag}
+                    </div>
+
+                </div>
+
+
+                <div>
+
+                    <div class="player-name">
+                        ${player.name}
+                    </div>
+
+                    <div class="team">
+                        ${player.team}
+                    </div>
+
+                </div>
+
 
                 <div class="price">
                     💰 ${formatMoney(player.price)}
@@ -394,177 +757,200 @@
 
         `;
 
+    });
+
+}
+
+
+/* =========================
+   MANAGE CARDS
+========================= */
+
+function displayManageCards() {
+
+    const container =
+        document.getElementById(
+            "manageCards"
+        );
+
+
+    if (collection.length === 0) {
+
+        container.innerHTML =
+            "<p>You don't have any cards to manage.</p>";
+
+        return;
+
     }
 
 
-    /*
-    =====================================
-    COLLECTION
-    =====================================
-    */
-
-    function displayCollection() {
-
-        const container =
-            document.getElementById("collectionCards");
+    container.innerHTML = "";
 
 
-        if (collection.length === 0) {
+    const grouped = {};
 
-            container.innerHTML =
-                "<p>You don't have any cards yet.</p>";
 
-            return;
+    collection.forEach(player => {
+
+        if (!grouped[player.name]) {
+
+            grouped[player.name] = {
+
+                player: player,
+
+                count: 0
+
+            };
+
         }
 
+        grouped[player.name].count++;
 
-        container.innerHTML = "";
+    });
 
 
-        collection.forEach((player, index) => {
+    Object.values(grouped).forEach(data => {
 
-            container.innerHTML += `
+        const player = data.player;
 
-                <div class="card">
+        const count = data.count;
 
-                    <div class="rating">
-                        ${player.rating}
+
+        container.innerHTML += `
+
+            <div class="card">
+
+                ${
+                    count > 1
+                    ?
+                    `<div class="duplicate-count">
+                        ${count}
+                    </div>`
+                    :
+                    ""
+                }
+
+
+                <div class="card-top">
+
+                    <div>
+
+                        <div class="rating">
+                            ${player.rating}
+                        </div>
+
+                        <div class="position">
+                            ${player.position}
+                        </div>
+
                     </div>
+
+                    <div class="flag">
+                        ${player.flag}
+                    </div>
+
+                </div>
+
+
+                <div>
 
                     <div class="player-name">
                         ${player.name}
                     </div>
 
-                    <p>${player.team}</p>
-
-                    <p>🏳️ ${player.nation}</p>
-
-                    <div class="price">
-                        💰 ${formatMoney(player.price)}
+                    <div class="team">
+                        ${player.team}
                     </div>
 
                 </div>
 
-            `;
 
-        });
-
-    }
-
-
-    /*
-    =====================================
-    MANAGE CARDS
-    =====================================
-    */
-
-    function displayManageCards() {
-
-        const container =
-            document.getElementById("manageCards");
-
-
-        if (collection.length === 0) {
-
-            container.innerHTML =
-                "<p>You don't have any cards to manage.</p>";
-
-            return;
-        }
-
-
-        container.innerHTML = "";
-
-
-        collection.forEach((player, index) => {
-
-            container.innerHTML += `
-
-                <div class="manage-card">
-
-                    <h2>${player.name}</h2>
-
-                    <p>
-                        ${player.team} • ${player.nation}
-                    </p>
-
-                    <p>
-                        Rating: ${player.rating}
-                    </p>
-
-                    <p>
-                        Transfer Market:
-                        <strong>
-                            ${formatMoney(player.price)}
-                        </strong>
-                    </p>
-
-                    <button onclick="sellCard(${index})">
-                        Sell Card
-                    </button>
-
+                <div class="price">
+                    💰 ${formatMoney(player.price)}
                 </div>
 
-            `;
 
-        });
+                <button
+                    onclick="sellCard('${player.name}')">
 
-    }
+                    Sell Card
 
+                </button>
 
-    /*
-    =====================================
-    SELL CARD
-    =====================================
-    */
+            </div>
 
-    function sellCard(index) {
+        `;
 
-        const player = collection[index];
+    });
 
-
-        coins += player.price;
+}
 
 
-        collection.splice(index, 1);
+/* =========================
+   SELL CARD
+========================= */
 
+function sellCard(playerName) {
 
-        updateCoins();
-
-        displayManageCards();
-
-        displayCollection();
-
-
-        alert(
-            player.name +
-            " sold for " +
-            formatMoney(player.price)
+    const index =
+        collection.findIndex(
+            player =>
+                player.name === playerName
         );
 
-    }
 
+    if (index === -1) {
 
-    /*
-    =====================================
-    FORMAT MONEY
-    =====================================
-    */
-
-    function formatMoney(amount) {
-
-        return "$" + amount.toLocaleString();
+        return;
 
     }
 
 
-    /*
-    =====================================
-    START GAME
-    =====================================
-    */
+    const player =
+        collection[index];
+
+
+    coins += player.price;
+
+
+    collection.splice(index, 1);
+
 
     updateCoins();
+
+
+    displayManageCards();
+
+
+    displayCollection();
+
+
+    alert(
+        player.name +
+        " sold for " +
+        formatMoney(player.price)
+    );
+
+}
+
+
+/* =========================
+   MONEY FORMAT
+========================= */
+
+function formatMoney(amount) {
+
+    return "$" +
+        amount.toLocaleString();
+
+}
+
+
+/* =========================
+   START
+========================= */
+
+updateCoins();
 
 </script>
 
