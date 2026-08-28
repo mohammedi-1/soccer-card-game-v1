@@ -2307,6 +2307,132 @@ function updateTeamStats() {
    START GAME
 ===================================================== */
 
+/* =====================================================
+   QUICK SELL DUPLICATES
+===================================================== */
+
+function quickSellDuplicates() {
+
+    const fee = 100.0;
+
+    if (coins < fee) {
+
+        alert("You need €100.0M to use Quick Sell.");
+
+        return;
+    }
+
+
+    if (collection.length === 0) {
+
+        alert("You don't have any cards.");
+
+        return;
+    }
+
+
+    const counts = {};
+
+    const firstCopies = {};
+
+    let moneyEarned = 0;
+    let duplicatesSold = 0;
+
+
+    collection.forEach(player => {
+
+        if (!counts[player.name]) {
+
+            counts[player.name] = 0;
+            firstCopies[player.name] = player;
+
+        }
+
+        counts[player.name]++;
+
+    });
+
+
+    const newCollection = [];
+
+
+    Object.keys(counts).forEach(playerName => {
+
+        const player =
+            firstCopies[playerName];
+
+        const amount =
+            counts[playerName];
+
+
+        /* Keep one copy */
+
+        newCollection.push(player);
+
+
+        /* Sell every duplicate */
+
+        if (amount > 1) {
+
+            const duplicates =
+                amount - 1;
+
+
+            moneyEarned +=
+                duplicates * player.price;
+
+
+            duplicatesSold += duplicates;
+
+        }
+
+    });
+
+
+    if (duplicatesSold === 0) {
+
+        alert(
+            "You don't have any duplicate cards to sell."
+        );
+
+        return;
+    }
+
+
+    /* Pay Quick Sell fee */
+
+    coins -= fee;
+
+
+    /* Add money from duplicate cards */
+
+    coins += moneyEarned;
+
+
+    collection =
+        newCollection;
+
+
+    updateCoins();
+
+    renderManageCards();
+
+    renderCollection();
+
+
+    alert(
+        "Quick Sell complete!\n\n" +
+        "Duplicates sold: " +
+        duplicatesSold +
+        "\n\n" +
+        "Money earned: " +
+        formatMoney(moneyEarned) +
+        "\n\n" +
+        "Quick Sell fee: €100.0M"
+    );
+
+}
+
 updateCoins();
 
 </script>
