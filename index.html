@@ -78,6 +78,49 @@
         }
 
         /* =========================
+           SEARCH + FILTERS
+        ========================= */
+
+        .search-area {
+            max-width: 850px;
+            margin: 25px auto 10px;
+        }
+
+        .search-box {
+            width: 100%;
+            padding: 14px 18px;
+            border-radius: 10px;
+            border: 1px solid #444;
+            background: #1b1b1b;
+            color: white;
+            font-size: 16px;
+            outline: none;
+        }
+
+        .search-box::placeholder {
+            color: #888;
+        }
+
+        .filter-buttons {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 8px;
+            margin-top: 14px;
+        }
+
+        .filter-button {
+            background: #242424;
+            color: #ccc;
+            border: 1px solid #444;
+        }
+
+        .filter-button.active {
+            background: white;
+            color: black;
+        }
+
+        /* =========================
            PLAYER CARDS
         ========================= */
 
@@ -202,10 +245,6 @@
             width: 100%;
         }
 
-        .pack-result .card {
-            margin: 0 auto;
-        }
-
         /* =========================
            TEAM BUILDER
         ========================= */
@@ -263,15 +302,12 @@
                 );
 
             background-size: 50% 100%;
-
             background-color: #176b35;
 
             border: 3px solid rgba(255,255,255,.65);
-
             border-radius: 12px;
 
             position: relative;
-
             overflow: hidden;
         }
 
@@ -376,10 +412,6 @@
             gap: 20px;
         }
 
-        .small-card {
-            transform: scale(.92);
-        }
-
         /* =========================
            RESPONSIVE
         ========================= */
@@ -435,7 +467,7 @@
     <h1>⚽ Soccer Cards</h1>
 
     <div class="coins">
-        💰 <span id="coins">20.0M</span>
+        💰 <span id="coins">€20.0M</span>
     </div>
 
 </header>
@@ -443,32 +475,20 @@
 
 <nav>
 
-    <button onclick="showPage('home')">
-        Home
-    </button>
+    <button onclick="showPage('home')">Home</button>
 
-    <button onclick="showPage('packs')">
-        Packs
-    </button>
+    <button onclick="showPage('packs')">Packs</button>
 
-    <button onclick="showPage('collection')">
-        Collection
-    </button>
+    <button onclick="showPage('collection')">Collection</button>
 
-    <button onclick="showPage('manage')">
-        Manage Cards
-    </button>
+    <button onclick="showPage('manage')">Manage Cards</button>
 
-    <button onclick="showPage('team')">
-        Manage Team
-    </button>
+    <button onclick="showPage('team')">Manage Team</button>
 
 </nav>
 
 
-<!-- =========================
-     HOME
-========================= -->
+<!-- HOME -->
 
 <div id="home" class="page">
 
@@ -485,9 +505,7 @@
 </div>
 
 
-<!-- =========================
-     PACKS
-========================= -->
+<!-- PACKS -->
 
 <div id="packs" class="page hidden">
 
@@ -510,13 +528,59 @@
 </div>
 
 
-<!-- =========================
-     COLLECTION
-========================= -->
+<!-- COLLECTION -->
 
 <div id="collection" class="page hidden">
 
     <h2>📚 My Collection</h2>
+
+    <div class="search-area">
+
+        <input
+            id="collectionSearch"
+            class="search-box"
+            type="text"
+            placeholder="Search player, team, nation..."
+            oninput="renderCollection()"
+        >
+
+        <div class="filter-buttons">
+
+            <button
+                class="filter-button active"
+                id="collectionAll"
+                onclick="setFilter('collection','all')">
+                All
+            </button>
+
+            <button
+                class="filter-button"
+                onclick="setFilter('collection','attackers')">
+                Attackers
+            </button>
+
+            <button
+                class="filter-button"
+                onclick="setFilter('collection','midfielders')">
+                Midfielders
+            </button>
+
+            <button
+                class="filter-button"
+                onclick="setFilter('collection','defenders')">
+                Defenders
+            </button>
+
+            <button
+                class="filter-button"
+                onclick="setFilter('collection','goalkeepers')">
+                Goalkeepers
+            </button>
+
+        </div>
+
+    </div>
+
 
     <div
         id="collectionCards"
@@ -526,9 +590,7 @@
 </div>
 
 
-<!-- =========================
-     MANAGE CARDS
-========================= -->
+<!-- MANAGE CARDS -->
 
 <div id="manage" class="page hidden">
 
@@ -538,6 +600,55 @@
         Sell cards for their transfer-market value.
     </p>
 
+
+    <div class="search-area">
+
+        <input
+            id="manageSearch"
+            class="search-box"
+            type="text"
+            placeholder="Search player, team, nation..."
+            oninput="renderManageCards()"
+        >
+
+        <div class="filter-buttons">
+
+            <button
+                class="filter-button active"
+                id="manageAll"
+                onclick="setFilter('manage','all')">
+                All
+            </button>
+
+            <button
+                class="filter-button"
+                onclick="setFilter('manage','attackers')">
+                Attackers
+            </button>
+
+            <button
+                class="filter-button"
+                onclick="setFilter('manage','midfielders')">
+                Midfielders
+            </button>
+
+            <button
+                class="filter-button"
+                onclick="setFilter('manage','defenders')">
+                Defenders
+            </button>
+
+            <button
+                class="filter-button"
+                onclick="setFilter('manage','goalkeepers')">
+                Goalkeepers
+            </button>
+
+        </div>
+
+    </div>
+
+
     <div
         id="manageCards"
         class="collection">
@@ -546,9 +657,7 @@
 </div>
 
 
-<!-- =========================
-     TEAM BUILDER
-========================= -->
+<!-- MANAGE TEAM -->
 
 <div id="team" class="page hidden">
 
@@ -568,25 +677,15 @@
         class="formation-select"
         onchange="changeFormation()">
 
-        <option value="4-3-3">
-            4-3-3
-        </option>
+        <option value="4-3-3">4-3-3</option>
 
-        <option value="4-2-3-1">
-            4-2-3-1
-        </option>
+        <option value="4-2-3-1">4-2-3-1</option>
 
-        <option value="4-4-2">
-            4-4-2
-        </option>
+        <option value="4-4-2">4-4-2</option>
 
-        <option value="4-3-2-1">
-            4-3-2-1
-        </option>
+        <option value="4-3-2-1">4-3-2-1</option>
 
-        <option value="3-5-2">
-            3-5-2
-        </option>
+        <option value="3-5-2">3-5-2</option>
 
     </select>
 
@@ -600,9 +699,7 @@
             <div
                 class="stat-number"
                 id="teamRating">
-
                 0
-
             </div>
 
         </div>
@@ -615,9 +712,7 @@
             <div
                 class="stat-number"
                 id="teamValue">
-
                 €0
-
             </div>
 
         </div>
@@ -633,13 +728,59 @@
 
     <div class="team-selection">
 
-        <h2>
-            Select Players
-        </h2>
+        <h2>Select Players</h2>
 
         <p>
-            Click a card to put that player into an open position.
+            Search your collection and click Add To Team.
         </p>
+
+
+        <div class="search-area">
+
+            <input
+                id="teamSearch"
+                class="search-box"
+                type="text"
+                placeholder="Search player, team, nation..."
+                oninput="renderTeamSelection()"
+            >
+
+            <div class="filter-buttons">
+
+                <button
+                    class="filter-button active"
+                    id="teamAll"
+                    onclick="setFilter('team','all')">
+                    All
+                </button>
+
+                <button
+                    class="filter-button"
+                    onclick="setFilter('team','attackers')">
+                    Attackers
+                </button>
+
+                <button
+                    class="filter-button"
+                    onclick="setFilter('team','midfielders')">
+                    Midfielders
+                </button>
+
+                <button
+                    class="filter-button"
+                    onclick="setFilter('team','defenders')">
+                    Defenders
+                </button>
+
+                <button
+                    class="filter-button"
+                    onclick="setFilter('team','goalkeepers')">
+                    Goalkeepers
+                </button>
+
+            </div>
+
+        </div>
 
 
         <div
@@ -660,8 +801,6 @@
 ===================================================== */
 
 const players = [
-
-    /* ================= GKs ================= */
 
     {
         name: "Mike Maignan",
@@ -703,9 +842,6 @@ const players = [
         price: 35.0
     },
 
-
-    /* ================= CBs ================= */
-
     {
         name: "William Saliba",
         team: "Arsenal",
@@ -728,7 +864,7 @@ const players = [
 
     {
         name: "Ibrahima Konate",
-        team: "Real Madrid",
+        team: "Liverpool",
         nation: "France",
         flag: "🇫🇷",
         position: "CB",
@@ -745,9 +881,6 @@ const players = [
         rating: 84,
         price: 18.0
     },
-
-
-    /* ================= LBs ================= */
 
     {
         name: "Theo Hernandez",
@@ -789,9 +922,6 @@ const players = [
         price: 49.0
     },
 
-
-    /* ================= RBs ================= */
-
     {
         name: "Trent Alexander-Arnold",
         team: "Real Madrid",
@@ -831,9 +961,6 @@ const players = [
         rating: 85,
         price: 45.0
     },
-
-
-    /* ================= CDMs ================= */
 
     {
         name: "Moisés Caicedo",
@@ -875,9 +1002,6 @@ const players = [
         price: 40.0
     },
 
-
-    /* ================= CMs ================= */
-
     {
         name: "Pedri",
         team: "Barcelona",
@@ -910,16 +1034,13 @@ const players = [
 
     {
         name: "Tijjani Reijnders",
-        team: "Al-Qadsiah",
+        team: "Manchester City",
         nation: "Netherlands",
         flag: "🇳🇱",
         position: "CM",
         rating: 86,
         price: 49.0
     },
-
-
-    /* ================= CAMs ================= */
 
     {
         name: "Jude Bellingham",
@@ -943,12 +1064,12 @@ const players = [
 
     {
         name: "Morgan Rogers",
-        team: "Chelsea",
+        team: "Aston Villa",
         nation: "England",
         flag: "🇬🇧",
         position: "CAM",
         rating: 84,
-        price: 127.0
+        price: 35.0
     },
 
     {
@@ -960,9 +1081,6 @@ const players = [
         rating: 83,
         price: 45.0
     },
-
-
-    /* ================= LWs ================= */
 
     {
         name: "Vinicius Junior",
@@ -1004,9 +1122,6 @@ const players = [
         price: 20.0
     },
 
-
-    /* ================= RWs ================= */
-
     {
         name: "Lamine Yamal",
         team: "Barcelona",
@@ -1046,9 +1161,6 @@ const players = [
         rating: 83,
         price: 20.0
     },
-
-
-    /* ================= STs ================= */
 
     {
         name: "Kylian Mbappe",
@@ -1101,13 +1213,13 @@ let coins = 20.0;
 
 let collection = [];
 
-
-/*
-    Each position contains the player currently
-    assigned to that position.
-*/
-
 let team = {};
+
+let filters = {
+    collection: "all",
+    manage: "all",
+    team: "all"
+};
 
 
 /* =====================================================
@@ -1118,91 +1230,70 @@ const formations = {
 
     "4-3-3": [
         { position: "GK", x: 50, y: 91 },
-
         { position: "LB", x: 17, y: 73 },
         { position: "CB", x: 38, y: 76 },
         { position: "CB", x: 62, y: 76 },
         { position: "RB", x: 83, y: 73 },
-
         { position: "CM", x: 28, y: 53 },
         { position: "CM", x: 50, y: 58 },
         { position: "CM", x: 72, y: 53 },
-
         { position: "LW", x: 18, y: 25 },
         { position: "ST", x: 50, y: 18 },
         { position: "RW", x: 82, y: 25 }
     ],
 
-
     "4-2-3-1": [
         { position: "GK", x: 50, y: 91 },
-
         { position: "LB", x: 17, y: 73 },
         { position: "CB", x: 38, y: 76 },
         { position: "CB", x: 62, y: 76 },
         { position: "RB", x: 83, y: 73 },
-
         { position: "CDM", x: 38, y: 57 },
         { position: "CDM", x: 62, y: 57 },
-
         { position: "LW", x: 18, y: 36 },
         { position: "CAM", x: 50, y: 36 },
         { position: "RW", x: 82, y: 36 },
-
         { position: "ST", x: 50, y: 16 }
     ],
 
-
     "4-4-2": [
         { position: "GK", x: 50, y: 91 },
-
         { position: "LB", x: 17, y: 73 },
         { position: "CB", x: 38, y: 76 },
         { position: "CB", x: 62, y: 76 },
         { position: "RB", x: 83, y: 73 },
-
         { position: "LM", x: 15, y: 50 },
         { position: "CM", x: 38, y: 54 },
         { position: "CM", x: 62, y: 54 },
         { position: "RM", x: 85, y: 50 },
-
         { position: "ST", x: 40, y: 20 },
         { position: "ST", x: 60, y: 20 }
     ],
 
-
     "4-3-2-1": [
         { position: "GK", x: 50, y: 91 },
-
         { position: "LB", x: 17, y: 73 },
         { position: "CB", x: 38, y: 76 },
         { position: "CB", x: 62, y: 76 },
         { position: "RB", x: 83, y: 73 },
-
         { position: "CM", x: 28, y: 55 },
         { position: "CM", x: 50, y: 59 },
         { position: "CM", x: 72, y: 55 },
-
         { position: "CAM", x: 38, y: 33 },
         { position: "CAM", x: 62, y: 33 },
-
         { position: "ST", x: 50, y: 14 }
     ],
 
-
     "3-5-2": [
         { position: "GK", x: 50, y: 91 },
-
         { position: "CB", x: 25, y: 76 },
         { position: "CB", x: 50, y: 79 },
         { position: "CB", x: 75, y: 76 },
-
         { position: "LM", x: 10, y: 53 },
         { position: "CM", x: 30, y: 56 },
         { position: "CDM", x: 50, y: 61 },
         { position: "CM", x: 70, y: 56 },
         { position: "RM", x: 90, y: 53 },
-
         { position: "ST", x: 40, y: 20 },
         { position: "ST", x: 60, y: 20 }
     ]
@@ -1222,32 +1313,28 @@ function showPage(pageName) {
             page.classList.add("hidden");
         });
 
-
     document
         .getElementById(pageName)
         .classList.remove("hidden");
 
-
     if (pageName === "collection") {
-        displayCollection();
+        renderCollection();
     }
-
 
     if (pageName === "manage") {
-        displayManageCards();
+        renderManageCards();
     }
-
 
     if (pageName === "team") {
         displayTeam();
-        displayTeamSelection();
+        renderTeamSelection();
     }
 
 }
 
 
 /* =====================================================
-   MONEY FORMAT
+   MONEY
 ===================================================== */
 
 function formatMoney(value) {
@@ -1260,14 +1347,10 @@ function formatMoney(value) {
         return "€" + value.toFixed(1) + "M";
     }
 
-    return "€" + (value * 1000).toFixed(0) + "K";
+    return "€" + Math.round(value * 1000) + "K";
 
 }
 
-
-/* =====================================================
-   COINS
-===================================================== */
 
 function updateCoins() {
 
@@ -1287,7 +1370,6 @@ function openPack() {
 
     const price = 5.0;
 
-
     if (coins < price) {
 
         alert("You don't have enough coins.");
@@ -1295,9 +1377,7 @@ function openPack() {
         return;
     }
 
-
     coins -= price;
-
 
     const randomPlayer =
         players[
@@ -1306,9 +1386,7 @@ function openPack() {
             )
         ];
 
-
     collection.push(randomPlayer);
-
 
     updateCoins();
 
@@ -1318,7 +1396,7 @@ function openPack() {
 
 
 /* =====================================================
-   CARD HTML
+   CARD
 ===================================================== */
 
 function createCard(player, duplicateCount = 0) {
@@ -1357,7 +1435,6 @@ function createCard(player, duplicateCount = 0) {
 
             </div>
 
-
             <div>
 
                 <div class="player-name">
@@ -1370,11 +1447,8 @@ function createCard(player, duplicateCount = 0) {
 
             </div>
 
-
             <div class="price">
-
                 ${formatMoney(player.price)}
-
             </div>
 
         </div>
@@ -1384,16 +1458,93 @@ function createCard(player, duplicateCount = 0) {
 }
 
 
-/* =====================================================
-   NEW PACK CARD
-===================================================== */
-
 function displayNewCard(player) {
 
     document
         .getElementById("newCard")
         .innerHTML =
         createCard(player);
+
+}
+
+
+/* =====================================================
+   POSITION FILTER
+===================================================== */
+
+function positionMatches(player, filter) {
+
+    if (filter === "all") {
+        return true;
+    }
+
+    if (filter === "attackers") {
+
+        return [
+            "LW",
+            "RW",
+            "ST"
+        ].includes(player.position);
+
+    }
+
+    if (filter === "midfielders") {
+
+        return [
+            "CDM",
+            "CM",
+            "CAM",
+            "LM",
+            "RM"
+        ].includes(player.position);
+
+    }
+
+    if (filter === "defenders") {
+
+        return [
+            "CB",
+            "LB",
+            "RB"
+        ].includes(player.position);
+
+    }
+
+    if (filter === "goalkeepers") {
+
+        return player.position === "GK";
+
+    }
+
+    return true;
+
+}
+
+
+/* =====================================================
+   SEARCH FILTER
+===================================================== */
+
+function playerMatchesSearch(player, search) {
+
+    if (!search) {
+        return true;
+    }
+
+    const text =
+        (
+            player.name +
+            " " +
+            player.team +
+            " " +
+            player.nation +
+            " " +
+            player.position
+        ).toLowerCase();
+
+    return text.includes(
+        search.toLowerCase()
+    );
 
 }
 
@@ -1421,7 +1572,6 @@ function getGroupedCollection() {
 
     });
 
-
     return Object.values(grouped);
 
 }
@@ -1431,36 +1581,55 @@ function getGroupedCollection() {
    COLLECTION
 ===================================================== */
 
-function displayCollection() {
+function renderCollection() {
 
     const container =
         document.getElementById(
             "collectionCards"
         );
 
-
-    if (collection.length === 0) {
-
-        container.innerHTML =
-            "<p>Your collection is empty.</p>";
-
-        return;
-
-    }
+    const search =
+        document.getElementById(
+            "collectionSearch"
+        ).value.trim();
 
 
     container.innerHTML = "";
 
 
-    getGroupedCollection().forEach(data => {
+    getGroupedCollection()
 
-        container.innerHTML +=
-            createCard(
+        .filter(data =>
+            positionMatches(
                 data.player,
-                data.count
-            );
+                filters.collection
+            )
+        )
 
-    });
+        .filter(data =>
+            playerMatchesSearch(
+                data.player,
+                search
+            )
+        )
+
+        .forEach(data => {
+
+            container.innerHTML +=
+                createCard(
+                    data.player,
+                    data.count
+                );
+
+        });
+
+
+    if (container.innerHTML === "") {
+
+        container.innerHTML =
+            "<p>No players found.</p>";
+
+    }
 
 }
 
@@ -1469,74 +1638,102 @@ function displayCollection() {
    MANAGE CARDS
 ===================================================== */
 
-function displayManageCards() {
+function renderManageCards() {
 
     const container =
         document.getElementById(
             "manageCards"
         );
 
-
-    if (collection.length === 0) {
-
-        container.innerHTML =
-            "<p>You don't have any cards.</p>";
-
-        return;
-
-    }
+    const search =
+        document.getElementById(
+            "manageSearch"
+        ).value.trim();
 
 
     container.innerHTML = "";
 
 
-    getGroupedCollection().forEach(data => {
+    getGroupedCollection()
 
-        const player = data.player;
+        .filter(data =>
+            positionMatches(
+                data.player,
+                filters.manage
+            )
+        )
 
-        const count = data.count;
+        .filter(data =>
+            playerMatchesSearch(
+                data.player,
+                search
+            )
+        )
+
+        .forEach(data => {
+
+            const player = data.player;
+
+            const count = data.count;
+
+            const isInTeam =
+                Object.values(team)
+                .includes(player.name);
 
 
-        const isInTeam =
-            Object.values(team)
-            .includes(player.name);
+            container.innerHTML += `
 
+                <div>
 
-        container.innerHTML += `
+                    ${createCard(
+                        player,
+                        count
+                    )}
 
-            <div>
+                    <div class="card-actions">
 
-                ${createCard(player, count)}
+                        ${
+                            isInTeam
+                            ?
+                            `<button
+                                disabled
+                                style="
+                                    opacity:.5;
+                                    width:100%;
+                                ">
 
-                <div class="card-actions">
+                                In Team
 
-                    ${
-                        isInTeam
-                        ?
-                        `<button
-                            disabled
-                            style="opacity:.5">
+                            </button>`
+                            :
+                            `<button
+                                class="sell-button"
+                                onclick="
+                                    sellCard(
+                                        '${player.name}'
+                                    )
+                                ">
 
-                            In Team
+                                Sell 1 Card
 
-                        </button>`
-                        :
-                        `<button
-                            class="sell-button"
-                            onclick="sellCard('${player.name}')">
+                            </button>`
+                        }
 
-                            Sell 1 Card
-
-                        </button>`
-                    }
+                    </div>
 
                 </div>
 
-            </div>
+            `;
 
-        `;
+        });
 
-    });
+
+    if (container.innerHTML === "") {
+
+        container.innerHTML =
+            "<p>No players found.</p>";
+
+    }
 
 }
 
@@ -1546,15 +1743,6 @@ function displayManageCards() {
 ===================================================== */
 
 function sellCard(playerName) {
-
-    const player =
-        collection.find(
-            p => p.name === playerName
-        );
-
-
-    if (!player) return;
-
 
     if (
         Object.values(team)
@@ -1576,7 +1764,13 @@ function sellCard(playerName) {
         );
 
 
-    if (index === -1) return;
+    if (index === -1) {
+        return;
+    }
+
+
+    const player =
+        collection[index];
 
 
     collection.splice(index, 1);
@@ -1587,30 +1781,121 @@ function sellCard(playerName) {
 
     updateCoins();
 
-    displayManageCards();
+    renderManageCards();
 
 }
 
 
 /* =====================================================
-   CHANGE FORMATION
+   FILTER BUTTONS
+===================================================== */
+
+function setFilter(section, filter) {
+
+    filters[section] = filter;
+
+
+    let pageId = "";
+
+    if (section === "collection") {
+        pageId = "collection";
+    }
+
+    if (section === "manage") {
+        pageId = "manage";
+    }
+
+    if (section === "team") {
+        pageId = "team";
+    }
+
+
+    const buttons =
+        document
+            .getElementById(pageId)
+            .querySelectorAll(
+                ".filter-button"
+            );
+
+
+    buttons.forEach(button => {
+
+        button.classList.remove(
+            "active"
+        );
+
+    });
+
+
+    const filterNames = {
+
+        all: "All",
+
+        attackers: "Attackers",
+
+        midfielders: "Midfielders",
+
+        defenders: "Defenders",
+
+        goalkeepers: "Goalkeepers"
+
+    };
+
+
+    buttons.forEach(button => {
+
+        if (
+            button.textContent.trim() ===
+            filterNames[filter]
+        ) {
+
+            button.classList.add(
+                "active"
+            );
+
+        }
+
+    });
+
+
+    if (section === "collection") {
+        renderCollection();
+    }
+
+    if (section === "manage") {
+        renderManageCards();
+    }
+
+    if (section === "team") {
+        renderTeamSelection();
+    }
+
+}
+
+
+/* =====================================================
+   FORMATION
 ===================================================== */
 
 function changeFormation() {
 
     displayTeam();
 
+    renderTeamSelection();
+
 }
 
 
 /* =====================================================
-   TEAM
+   DISPLAY TEAM
 ===================================================== */
 
 function displayTeam() {
 
     const pitch =
-        document.getElementById("pitch");
+        document.getElementById(
+            "pitch"
+        );
 
 
     const formation =
@@ -1631,12 +1916,16 @@ function displayTeam() {
 
             const player =
                 players.find(
-                    p => p.name === playerName
+                    p =>
+                        p.name ===
+                        playerName
                 );
 
 
             const element =
-                document.createElement("div");
+                document.createElement(
+                    "div"
+                );
 
 
             element.className =
@@ -1669,7 +1958,11 @@ function displayTeam() {
 
                     <button
                         class="remove-player"
-                        onclick="removeFromTeam(${index})">
+                        onclick="
+                            removeFromTeam(
+                                ${index}
+                            )
+                        ">
 
                         Remove
 
@@ -1677,7 +1970,8 @@ function displayTeam() {
 
                 `;
 
-            } else {
+            }
+            else {
 
                 element.innerHTML = `
 
@@ -1709,7 +2003,7 @@ function displayTeam() {
    TEAM SELECTION
 ===================================================== */
 
-function displayTeamSelection() {
+function renderTeamSelection() {
 
     const container =
         document.getElementById(
@@ -1717,63 +2011,94 @@ function displayTeamSelection() {
         );
 
 
+    const search =
+        document.getElementById(
+            "teamSearch"
+        ).value.trim();
+
+
     container.innerHTML = "";
 
 
-    if (collection.length === 0) {
+    getGroupedCollection()
+
+        .filter(data =>
+            positionMatches(
+                data.player,
+                filters.team
+            )
+        )
+
+        .filter(data =>
+            playerMatchesSearch(
+                data.player,
+                search
+            )
+        )
+
+        .forEach(data => {
+
+            const player =
+                data.player;
+
+
+            const alreadyInTeam =
+                Object.values(team)
+                .includes(player.name);
+
+
+            if (alreadyInTeam) {
+                return;
+            }
+
+
+            const wrapper =
+                document.createElement(
+                    "div"
+                );
+
+
+            wrapper.innerHTML = `
+
+                ${createCard(
+                    player,
+                    data.count
+                )}
+
+                <button
+                    class="team-button"
+                    onclick="
+                        addToTeam(
+                            '${player.name}'
+                        )
+                    ">
+
+                    Add To Team
+
+                </button>
+
+            `;
+
+
+            container.appendChild(
+                wrapper
+            );
+
+        });
+
+
+    if (container.innerHTML === "") {
 
         container.innerHTML =
-            "<p>Open a pack to get players.</p>";
-
-        return;
+            "<p>No players found.</p>";
 
     }
-
-
-    getGroupedCollection().forEach(data => {
-
-        const player = data.player;
-
-
-        const alreadyInTeam =
-            Object.values(team)
-            .includes(player.name);
-
-
-        if (alreadyInTeam) return;
-
-
-        const wrapper =
-            document.createElement("div");
-
-
-        wrapper.innerHTML = `
-
-            ${createCard(
-                player,
-                data.count
-            )}
-
-            <button
-                class="team-button"
-                onclick="addToTeam('${player.name}')">
-
-                Add To Team
-
-            </button>
-
-        `;
-
-
-        container.appendChild(wrapper);
-
-    });
 
 }
 
 
 /* =====================================================
-   ADD PLAYER
+   ADD PLAYER TO TEAM
 ===================================================== */
 
 function addToTeam(playerName) {
@@ -1794,75 +2119,68 @@ function addToTeam(playerName) {
         );
 
 
-    if (!player) return;
+    if (!player) {
+        return;
+    }
 
 
-    /*
-        Find an empty position that
-        matches the player's position.
-    */
+    const compatible = {
 
-    let slotIndex =
+        GK: ["GK"],
+
+        CB: ["CB"],
+
+        LB: ["LB"],
+
+        RB: ["RB"],
+
+        CDM: ["CDM", "CM"],
+
+        CM: [
+            "CM",
+            "CDM",
+            "CAM"
+        ],
+
+        CAM: [
+            "CAM",
+            "CM"
+        ],
+
+        LW: [
+            "LW",
+            "LM"
+        ],
+
+        RW: [
+            "RW",
+            "RM"
+        ],
+
+        ST: ["ST"]
+
+    };
+
+
+    const allowed =
+        compatible[player.position] ||
+        [];
+
+
+    const slotIndex =
         slots.findIndex(
             (slot, index) =>
                 !team[index] &&
-                slot.position === player.position
+                allowed.includes(
+                    slot.position
+                )
         );
-
-
-    /*
-        If there isn't an exact match,
-        allow some similar positions.
-    */
-
-    if (slotIndex === -1) {
-
-        const compatible = {
-
-            GK: ["GK"],
-
-            CB: ["CB"],
-
-            LB: ["LB"],
-
-            RB: ["RB"],
-
-            CDM: ["CDM", "CM"],
-
-            CM: ["CM", "CDM", "CAM"],
-
-            CAM: ["CAM", "CM"],
-
-            LW: ["LW", "LM"],
-
-            RW: ["RW", "RM"],
-
-            ST: ["ST"]
-
-        };
-
-
-        const allowed =
-            compatible[player.position] ||
-            [];
-
-
-        slotIndex =
-            slots.findIndex(
-                (slot, index) =>
-                    !team[index] &&
-                    allowed.includes(
-                        slot.position
-                    )
-            );
-
-    }
 
 
     if (slotIndex === -1) {
 
         alert(
-            "There isn't an open suitable position in this formation."
+            "There isn't an open suitable position."
         );
 
         return;
@@ -1876,7 +2194,7 @@ function addToTeam(playerName) {
 
     displayTeam();
 
-    displayTeamSelection();
+    renderTeamSelection();
 
 }
 
@@ -1889,10 +2207,11 @@ function removeFromTeam(index) {
 
     delete team[index];
 
-
     displayTeam();
 
-    displayTeamSelection();
+    renderTeamSelection();
+
+    renderManageCards();
 
 }
 
@@ -1911,7 +2230,9 @@ function updateTeamStats() {
 
             const player =
                 players.find(
-                    p => p.name === playerName
+                    p =>
+                        p.name ===
+                        playerName
                 );
 
 
@@ -1926,12 +2247,16 @@ function updateTeamStats() {
     if (teamPlayers.length === 0) {
 
         document
-            .getElementById("teamRating")
+            .getElementById(
+                "teamRating"
+            )
             .textContent = "0";
 
 
         document
-            .getElementById("teamValue")
+            .getElementById(
+                "teamValue"
+            )
             .textContent = "€0";
 
         return;
@@ -1961,13 +2286,17 @@ function updateTeamStats() {
 
 
     document
-        .getElementById("teamRating")
+        .getElementById(
+            "teamRating"
+        )
         .textContent =
         average.toFixed(1);
 
 
     document
-        .getElementById("teamValue")
+        .getElementById(
+            "teamValue"
+        )
         .textContent =
         formatMoney(totalValue);
 
@@ -1975,7 +2304,7 @@ function updateTeamStats() {
 
 
 /* =====================================================
-   START
+   START GAME
 ===================================================== */
 
 updateCoins();
@@ -1983,5 +2312,4 @@ updateCoins();
 </script>
 
 </body>
-
 </html>
