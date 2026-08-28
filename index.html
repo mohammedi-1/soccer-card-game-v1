@@ -1,9 +1,16 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
+
 <head>
-    <title>Soccer Card Game</title>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Soccer Cards</title>
 
     <style>
+
         * {
             box-sizing: border-box;
         }
@@ -11,53 +18,58 @@
         body {
             margin: 0;
             font-family: Arial, sans-serif;
-            background: #101010;
+            background: #0d0d0d;
             color: white;
         }
 
         header {
-            background: #181818;
-            padding: 20px;
+            background: #171717;
+            padding: 18px 30px;
             display: flex;
             justify-content: space-between;
             align-items: center;
+            border-bottom: 1px solid #333;
         }
 
         header h1 {
             margin: 0;
+            font-size: 25px;
         }
 
         .coins {
-            font-size: 20px;
             font-weight: bold;
+            font-size: 18px;
         }
 
         nav {
-            background: #202020;
-            padding: 15px;
+            background: #1c1c1c;
+            padding: 12px;
             text-align: center;
+            border-bottom: 1px solid #333;
         }
 
         nav button {
-            margin: 5px;
+            margin: 4px;
         }
 
         button {
+            border: none;
+            border-radius: 8px;
+            padding: 11px 18px;
+            font-size: 15px;
+            cursor: pointer;
             background: white;
             color: black;
-            border: none;
-            padding: 12px 20px;
-            border-radius: 8px;
-            cursor: pointer;
-            font-size: 16px;
+            font-weight: bold;
         }
 
         button:hover {
-            transform: scale(1.03);
+            transform: translateY(-1px);
+            opacity: .9;
         }
 
         .page {
-            padding: 30px;
+            padding: 30px 20px;
             text-align: center;
         }
 
@@ -65,9 +77,8 @@
             display: none;
         }
 
-
         /* =========================
-           CARD GRID
+           PLAYER CARDS
         ========================= */
 
         .collection {
@@ -78,31 +89,24 @@
             margin-top: 30px;
         }
 
-
-        /* =========================
-           PLAYER CARD
-        ========================= */
-
         .card {
             width: 190px;
-            height: 280px;
+            height: 285px;
             position: relative;
-
-            padding: 18px;
-
-            border-radius: 18px;
+            padding: 17px;
+            border-radius: 20px;
 
             background:
                 linear-gradient(
                     145deg,
-                    #383838,
-                    #151515
+                    #3c3c3c,
+                    #171717
                 );
 
             border: 2px solid #555;
 
             box-shadow:
-                0 10px 25px rgba(0,0,0,0.5);
+                0 12px 30px rgba(0,0,0,.5);
 
             display: flex;
             flex-direction: column;
@@ -111,176 +115,315 @@
             overflow: hidden;
         }
 
-
-        /* CARD TOP */
-
         .card-top {
             display: flex;
             justify-content: space-between;
             align-items: flex-start;
         }
 
-
         .rating {
-            font-size: 38px;
-            font-weight: bold;
+            font-size: 40px;
+            font-weight: 900;
         }
-
 
         .position {
-            font-size: 15px;
-            opacity: 0.8;
+            font-size: 13px;
+            color: #bbb;
         }
-
-
-        /* FLAG */
 
         .flag {
             font-size: 28px;
-            margin-top: 5px;
         }
-
-
-        /* PLAYER */
 
         .player-name {
-            font-size: 20px;
-            font-weight: bold;
-            margin-top: 10px;
+            font-size: 19px;
+            font-weight: 900;
+            margin-bottom: 5px;
         }
-
 
         .team {
-            font-size: 14px;
-            opacity: 0.8;
+            font-size: 13px;
+            color: #bbb;
         }
-
-
-        /* PRICE */
 
         .price {
-            color: #6cff7a;
-            font-size: 16px;
+            color: #69f779;
             font-weight: bold;
+            font-size: 16px;
         }
 
-
-        /* DUPLICATE INDICATOR */
-
         .duplicate-count {
-
             position: absolute;
-
-            top: 8px;
             right: 8px;
+            top: 8px;
 
             width: 30px;
             height: 30px;
 
             background: #e53935;
-
-            color: white;
+            border: 2px solid white;
 
             border-radius: 50%;
 
             display: flex;
-
-            align-items: center;
             justify-content: center;
+            align-items: center;
 
             font-weight: bold;
-
-            font-size: 15px;
-
-            border: 2px solid white;
-
+            z-index: 5;
         }
 
+        .card-actions {
+            margin-top: 10px;
+        }
 
-        /* MANAGE CARD */
+        .sell-button {
+            background: #e53935;
+            color: white;
+            width: 100%;
+        }
 
-        .manage-card {
+        .team-button {
+            background: #4caf50;
+            color: white;
+            width: 100%;
+            margin-top: 6px;
+        }
 
-            background: #202020;
+        /* =========================
+           PACK
+        ========================= */
 
-            padding: 15px;
+        .pack-result {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin-top: 30px;
+            width: 100%;
+        }
+
+        .pack-result .card {
+            margin: 0 auto;
+        }
+
+        /* =========================
+           TEAM BUILDER
+        ========================= */
+
+        .team-header {
+            margin-bottom: 25px;
+        }
+
+        .team-stats {
+            display: flex;
+            justify-content: center;
+            gap: 40px;
+            flex-wrap: wrap;
+            margin: 20px 0;
+        }
+
+        .stat-box {
+            background: #1d1d1d;
+            border: 1px solid #333;
+            border-radius: 12px;
+            padding: 15px 25px;
+            min-width: 160px;
+        }
+
+        .stat-number {
+            font-size: 25px;
+            font-weight: bold;
+            margin-top: 5px;
+        }
+
+        .formation-select {
+            margin: 20px;
+            padding: 10px 15px;
+            background: #222;
+            color: white;
+            border: 1px solid #555;
+            border-radius: 8px;
+            font-size: 16px;
+        }
+
+        /* =========================
+           PITCH
+        ========================= */
+
+        .pitch {
+            width: min(850px, 95%);
+            height: 560px;
+            margin: 30px auto;
+
+            background:
+                linear-gradient(
+                    90deg,
+                    rgba(255,255,255,.025) 50%,
+                    transparent 50%
+                );
+
+            background-size: 50% 100%;
+
+            background-color: #176b35;
+
+            border: 3px solid rgba(255,255,255,.65);
 
             border-radius: 12px;
 
-            width: 230px;
+            position: relative;
 
-            margin: 0 auto;
-
+            overflow: hidden;
         }
 
+        .pitch::before {
+            content: "";
+            position: absolute;
 
-        .manage-container {
+            width: 120px;
+            height: 120px;
 
-            display: grid;
+            border: 2px solid rgba(255,255,255,.7);
 
-            grid-template-columns:
-                repeat(3, 230px);
+            border-radius: 50%;
 
+            left: 50%;
+            top: 50%;
+
+            transform: translate(-50%, -50%);
+        }
+
+        .pitch::after {
+            content: "";
+
+            position: absolute;
+
+            width: 100%;
+            height: 2px;
+
+            background: rgba(255,255,255,.7);
+
+            top: 50%;
+            left: 0;
+        }
+
+        .team-slot {
+            position: absolute;
+
+            width: 125px;
+            min-height: 75px;
+
+            transform: translate(-50%, -50%);
+
+            background: rgba(10,10,10,.85);
+
+            border: 2px solid rgba(255,255,255,.7);
+
+            border-radius: 10px;
+
+            padding: 8px;
+
+            display: flex;
+            flex-direction: column;
             justify-content: center;
+            align-items: center;
 
-            gap: 25px;
-
-            margin-top: 30px;
-
+            z-index: 3;
         }
 
+        .slot-position {
+            font-size: 12px;
+            color: #aaa;
+        }
 
-        .manage-card button {
+        .slot-name {
+            font-weight: bold;
+            font-size: 13px;
+            margin-top: 3px;
+        }
 
+        .slot-rating {
+            font-size: 14px;
+            color: #6cff7a;
+            font-weight: bold;
+        }
+
+        .empty-slot {
+            color: #aaa;
+            font-size: 12px;
+        }
+
+        .remove-player {
+            margin-top: 5px;
+            padding: 4px 8px;
+            font-size: 11px;
             background: #e53935;
-
             color: white;
+        }
 
-            margin-top: 10px;
+        /* =========================
+           TEAM PLAYER SELECTION
+        ========================= */
+
+        .team-selection {
+            max-width: 900px;
+            margin: 30px auto;
+        }
+
+        .selection-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 190px);
+            justify-content: center;
+            gap: 20px;
+        }
+
+        .small-card {
+            transform: scale(.92);
+        }
+
+        /* =========================
+           RESPONSIVE
+        ========================= */
+
+        @media(max-width: 800px) {
+
+            .collection,
+            .selection-grid {
+                grid-template-columns: repeat(2, 190px);
+            }
+
+            .pitch {
+                height: 520px;
+            }
 
         }
 
+        @media(max-width: 500px) {
 
-        /* RESPONSIVE */
-
-        @media (max-width: 750px) {
-
-            .collection {
-
-                grid-template-columns:
-                    repeat(2, 190px);
-
+            .collection,
+            .selection-grid {
+                grid-template-columns: 190px;
             }
 
-            .manage-container {
-
-                grid-template-columns:
-                    repeat(2, 230px);
-
+            header {
+                padding: 15px;
             }
 
-        }
-
-
-        @media (max-width: 500px) {
-
-            .collection {
-
-                grid-template-columns:
-                    repeat(1, 190px);
-
+            header h1 {
+                font-size: 20px;
             }
 
-            .manage-container {
+            .pitch {
+                height: 650px;
+            }
 
-                grid-template-columns:
-                    repeat(1, 230px);
-
+            .team-slot {
+                width: 105px;
             }
 
         }
 
     </style>
+
 </head>
 
 
@@ -292,11 +435,7 @@
     <h1>⚽ Soccer Cards</h1>
 
     <div class="coins">
-
-        💰 <span id="coins">
-            20,000,000
-        </span>
-
+        💰 <span id="coins">20.0M</span>
     </div>
 
 </header>
@@ -320,19 +459,23 @@
         Manage Cards
     </button>
 
+    <button onclick="showPage('team')">
+        Manage Team
+    </button>
+
 </nav>
 
 
-<!-- HOME -->
+<!-- =========================
+     HOME
+========================= -->
 
 <div id="home" class="page">
 
-    <h2>
-        Welcome to Soccer Cards
-    </h2>
+    <h2>Welcome to Soccer Cards</h2>
 
     <p>
-        Collect players, sell cards and build your dream team.
+        Collect players, build your team and manage your cards.
     </p>
 
     <button onclick="showPage('packs')">
@@ -342,40 +485,38 @@
 </div>
 
 
-<!-- PACKS -->
+<!-- =========================
+     PACKS
+========================= -->
 
 <div id="packs" class="page hidden">
 
-    <h2>📦 Packs</h2>
+    <h2>📦 Random Player Pack</h2>
 
     <p>
-        Get a random player from anywhere in the world.
+        Get a random player from the database.
     </p>
 
     <h3>
-        Random Player Pack
+        Cost: €5.0M
     </h3>
-
-    <p>
-        Cost: 💰 5,000,000
-    </p>
 
     <button onclick="openPack()">
         Buy Random Card
     </button>
 
-    <div id="newCard"></div>
+    <div id="newCard" class="pack-result"></div>
 
 </div>
 
 
-<!-- COLLECTION -->
+<!-- =========================
+     COLLECTION
+========================= -->
 
 <div id="collection" class="page hidden">
 
-    <h2>
-        📚 My Collection
-    </h2>
+    <h2>📚 My Collection</h2>
 
     <div
         id="collectionCards"
@@ -385,13 +526,13 @@
 </div>
 
 
-<!-- MANAGE -->
+<!-- =========================
+     MANAGE CARDS
+========================= -->
 
 <div id="manage" class="page hidden">
 
-    <h2>
-        💼 Manage Cards
-    </h2>
+    <h2>💼 Manage Cards</h2>
 
     <p>
         Sell cards for their transfer-market value.
@@ -399,7 +540,113 @@
 
     <div
         id="manageCards"
-        class="manage-container">
+        class="collection">
+    </div>
+
+</div>
+
+
+<!-- =========================
+     TEAM BUILDER
+========================= -->
+
+<div id="team" class="page hidden">
+
+    <div class="team-header">
+
+        <h2>👥 Manage Team</h2>
+
+        <p>
+            Build your starting XI.
+        </p>
+
+    </div>
+
+
+    <select
+        id="formation"
+        class="formation-select"
+        onchange="changeFormation()">
+
+        <option value="4-3-3">
+            4-3-3
+        </option>
+
+        <option value="4-2-3-1">
+            4-2-3-1
+        </option>
+
+        <option value="4-4-2">
+            4-4-2
+        </option>
+
+        <option value="4-3-2-1">
+            4-3-2-1
+        </option>
+
+        <option value="3-5-2">
+            3-5-2
+        </option>
+
+    </select>
+
+
+    <div class="team-stats">
+
+        <div class="stat-box">
+
+            Team Rating
+
+            <div
+                class="stat-number"
+                id="teamRating">
+
+                0
+
+            </div>
+
+        </div>
+
+
+        <div class="stat-box">
+
+            Team Value
+
+            <div
+                class="stat-number"
+                id="teamValue">
+
+                €0
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <div
+        id="pitch"
+        class="pitch">
+    </div>
+
+
+    <div class="team-selection">
+
+        <h2>
+            Select Players
+        </h2>
+
+        <p>
+            Click a card to put that player into an open position.
+        </p>
+
+
+        <div
+            id="teamSelection"
+            class="selection-grid">
+        </div>
+
     </div>
 
 </div>
@@ -408,61 +655,314 @@
 <script>
 
 
-/* =========================
+/* =====================================================
    PLAYER DATABASE
-========================= */
+===================================================== */
 
 const players = [
 
+    /* ================= GKs ================= */
+
     {
-        name: "Lionel Messi",
-        team: "Inter Miami",
-        nation: "Argentina",
-        flag: "🇦🇷",
-        position: "RW",
-        rating: 90,
-        price: 50000000
+        name: "Mike Maignan",
+        team: "AC Milan",
+        nation: "France",
+        flag: "🇫🇷",
+        position: "GK",
+        rating: 87,
+        price: 20.0
     },
 
     {
-        name: "Cristiano Ronaldo",
-        team: "Al Nassr",
+        name: "Gianluigi Donnarumma",
+        team: "Manchester City",
+        nation: "Italy",
+        flag: "🇮🇹",
+        position: "GK",
+        rating: 88,
+        price: 40.0
+    },
+
+    {
+        name: "Bart Verbruggen",
+        team: "Brighton",
+        nation: "Netherlands",
+        flag: "🇳🇱",
+        position: "GK",
+        rating: 83,
+        price: 40.0
+    },
+
+    {
+        name: "Diogo Costa",
+        team: "Porto",
         nation: "Portugal",
         flag: "🇵🇹",
-        position: "ST",
-        rating: 89,
-        price: 45000000
+        position: "GK",
+        rating: 85,
+        price: 35.0
+    },
+
+
+    /* ================= CBs ================= */
+
+    {
+        name: "William Saliba",
+        team: "Arsenal",
+        nation: "France",
+        flag: "🇫🇷",
+        position: "CB",
+        rating: 88,
+        price: 90.0
     },
 
     {
-        name: "Kylian Mbappe",
+        name: "Pau Cubarsi",
+        team: "Barcelona",
+        nation: "Spain",
+        flag: "🇪🇸",
+        position: "CB",
+        rating: 87,
+        price: 115.0
+    },
+
+    {
+        name: "Ibrahima Konate",
         team: "Real Madrid",
         nation: "France",
         flag: "🇫🇷",
-        position: "ST",
-        rating: 91,
-        price: 180000000
+        position: "CB",
+        rating: 86,
+        price: 45.0
     },
+
+    {
+        name: "Fikayo Tomori",
+        team: "AC Milan",
+        nation: "England",
+        flag: "🇬🇧",
+        position: "CB",
+        rating: 84,
+        price: 18.0
+    },
+
+
+    /* ================= LBs ================= */
+
+    {
+        name: "Theo Hernandez",
+        team: "Al-Hilal",
+        nation: "France",
+        flag: "🇫🇷",
+        position: "LB",
+        rating: 86,
+        price: 20.0
+    },
+
+    {
+        name: "Alejandro Balde",
+        team: "Barcelona",
+        nation: "Spain",
+        flag: "🇪🇸",
+        position: "LB",
+        rating: 85,
+        price: 50.0
+    },
+
+    {
+        name: "Myles Lewis-Skelly",
+        team: "Arsenal",
+        nation: "England",
+        flag: "🇬🇧",
+        position: "LB",
+        rating: 84,
+        price: 49.0
+    },
+
+    {
+        name: "Riccardo Calafiori",
+        team: "Arsenal",
+        nation: "Italy",
+        flag: "🇮🇹",
+        position: "LB",
+        rating: 84,
+        price: 49.0
+    },
+
+
+    /* ================= RBs ================= */
+
+    {
+        name: "Trent Alexander-Arnold",
+        team: "Real Madrid",
+        nation: "England",
+        flag: "🇬🇧",
+        position: "RB",
+        rating: 87,
+        price: 48.0
+    },
+
+    {
+        name: "Pedro Porro",
+        team: "Tottenham",
+        nation: "Spain",
+        flag: "🇪🇸",
+        position: "RB",
+        rating: 84,
+        price: 48.0
+    },
+
+    {
+        name: "Achraf Hakimi",
+        team: "PSG",
+        nation: "Morocco",
+        flag: "🇲🇦",
+        position: "RB",
+        rating: 88,
+        price: 80.0
+    },
+
+    {
+        name: "Jeremie Frimpong",
+        team: "Liverpool",
+        nation: "Netherlands",
+        flag: "🇳🇱",
+        position: "RB",
+        rating: 85,
+        price: 45.0
+    },
+
+
+    /* ================= CDMs ================= */
+
+    {
+        name: "Moisés Caicedo",
+        team: "Chelsea",
+        nation: "Ecuador",
+        flag: "🇪🇨",
+        position: "CDM",
+        rating: 88,
+        price: 108.0
+    },
+
+    {
+        name: "Declan Rice",
+        team: "Arsenal",
+        nation: "England",
+        flag: "🇬🇧",
+        position: "CDM",
+        rating: 89,
+        price: 117.0
+    },
+
+    {
+        name: "Martin Zubimendi",
+        team: "Arsenal",
+        nation: "Spain",
+        flag: "🇪🇸",
+        position: "CDM",
+        rating: 85,
+        price: 60.0
+    },
+
+    {
+        name: "Adam Wharton",
+        team: "Crystal Palace",
+        nation: "England",
+        flag: "🇬🇧",
+        position: "CDM",
+        rating: 80,
+        price: 40.0
+    },
+
+
+    /* ================= CMs ================= */
+
+    {
+        name: "Pedri",
+        team: "Barcelona",
+        nation: "Spain",
+        flag: "🇪🇸",
+        position: "CM",
+        rating: 91,
+        price: 145.0
+    },
+
+    {
+        name: "Vitinha",
+        team: "PSG",
+        nation: "Portugal",
+        flag: "🇵🇹",
+        position: "CM",
+        rating: 89,
+        price: 132.0
+    },
+
+    {
+        name: "Enzo Fernandez",
+        team: "Chelsea",
+        nation: "Argentina",
+        flag: "🇦🇷",
+        position: "CM",
+        rating: 88,
+        price: 106.0
+    },
+
+    {
+        name: "Tijjani Reijnders",
+        team: "Al-Qadsiah",
+        nation: "Netherlands",
+        flag: "🇳🇱",
+        position: "CM",
+        rating: 86,
+        price: 49.0
+    },
+
+
+    /* ================= CAMs ================= */
 
     {
         name: "Jude Bellingham",
         team: "Real Madrid",
         nation: "England",
         flag: "🇬🇧",
-        position: "CM",
+        position: "CAM",
         rating: 90,
-        price: 150000000
+        price: 162.0
     },
 
     {
-        name: "Lamine Yamal",
-        team: "Barcelona",
-        nation: "Spain",
-        flag: "🇪🇸",
-        position: "RW",
-        rating: 89,
-        price: 120000000
+        name: "Florian Wirtz",
+        team: "Liverpool",
+        nation: "Germany",
+        flag: "🇩🇪",
+        position: "CAM",
+        rating: 90,
+        price: 112.0
     },
+
+    {
+        name: "Morgan Rogers",
+        team: "Chelsea",
+        nation: "England",
+        flag: "🇬🇧",
+        position: "CAM",
+        rating: 84,
+        price: 127.0
+    },
+
+    {
+        name: "Arda Guler",
+        team: "Real Madrid",
+        nation: "Turkey",
+        flag: "🇹🇷",
+        position: "CAM",
+        rating: 83,
+        price: 45.0
+    },
+
+
+    /* ================= LWs ================= */
 
     {
         name: "Vinicius Junior",
@@ -471,42 +971,256 @@ const players = [
         flag: "🇧🇷",
         position: "LW",
         rating: 90,
-        price: 160000000
+        price: 131.0
+    },
+
+    {
+        name: "Khvicha Kvaratskhelia",
+        team: "PSG",
+        nation: "Georgia",
+        flag: "🇬🇪",
+        position: "LW",
+        rating: 88,
+        price: 121.0
+    },
+
+    {
+        name: "Rafael Leao",
+        team: "AC Milan",
+        nation: "Portugal",
+        flag: "🇵🇹",
+        position: "LW",
+        rating: 86,
+        price: 70.0
+    },
+
+    {
+        name: "Kingsley Coman",
+        team: "Al-Nassr",
+        nation: "France",
+        flag: "🇫🇷",
+        position: "LW",
+        rating: 85,
+        price: 20.0
+    },
+
+
+    /* ================= RWs ================= */
+
+    {
+        name: "Lamine Yamal",
+        team: "Barcelona",
+        nation: "Spain",
+        flag: "🇪🇸",
+        position: "RW",
+        rating: 91,
+        price: 205.0
+    },
+
+    {
+        name: "Michael Olise",
+        team: "Bayern Munich",
+        nation: "France",
+        flag: "🇫🇷",
+        position: "RW",
+        rating: 88,
+        price: 161.0
+    },
+
+    {
+        name: "Takefusa Kubo",
+        team: "Real Sociedad",
+        nation: "Japan",
+        flag: "🇯🇵",
+        position: "RW",
+        rating: 85,
+        price: 18.0
+    },
+
+    {
+        name: "Johan Bakayoko",
+        team: "RB Leipzig",
+        nation: "Belgium",
+        flag: "🇧🇪",
+        position: "RW",
+        rating: 83,
+        price: 20.0
+    },
+
+
+    /* ================= STs ================= */
+
+    {
+        name: "Kylian Mbappe",
+        team: "Real Madrid",
+        nation: "France",
+        flag: "🇫🇷",
+        position: "ST",
+        rating: 91,
+        price: 170.0
+    },
+
+    {
+        name: "Erling Haaland",
+        team: "Manchester City",
+        nation: "Norway",
+        flag: "🇳🇴",
+        position: "ST",
+        rating: 91,
+        price: 185.0
+    },
+
+    {
+        name: "Julian Alvarez",
+        team: "Atletico Madrid",
+        nation: "Argentina",
+        flag: "🇦🇷",
+        position: "ST",
+        rating: 89,
+        price: 110.0
+    },
+
+    {
+        name: "Marcus Thuram",
+        team: "Inter",
+        nation: "France",
+        flag: "🇫🇷",
+        position: "ST",
+        rating: 86,
+        price: 45.0
     }
 
 ];
 
 
-/* =========================
-   PLAYER DATA
-========================= */
+/* =====================================================
+   GAME DATA
+===================================================== */
 
-let coins = 20000000;
+let coins = 20.0;
 
 let collection = [];
 
 
-/* =========================
+/*
+    Each position contains the player currently
+    assigned to that position.
+*/
+
+let team = {};
+
+
+/* =====================================================
+   FORMATIONS
+===================================================== */
+
+const formations = {
+
+    "4-3-3": [
+        { position: "GK", x: 50, y: 91 },
+
+        { position: "LB", x: 17, y: 73 },
+        { position: "CB", x: 38, y: 76 },
+        { position: "CB", x: 62, y: 76 },
+        { position: "RB", x: 83, y: 73 },
+
+        { position: "CM", x: 28, y: 53 },
+        { position: "CM", x: 50, y: 58 },
+        { position: "CM", x: 72, y: 53 },
+
+        { position: "LW", x: 18, y: 25 },
+        { position: "ST", x: 50, y: 18 },
+        { position: "RW", x: 82, y: 25 }
+    ],
+
+
+    "4-2-3-1": [
+        { position: "GK", x: 50, y: 91 },
+
+        { position: "LB", x: 17, y: 73 },
+        { position: "CB", x: 38, y: 76 },
+        { position: "CB", x: 62, y: 76 },
+        { position: "RB", x: 83, y: 73 },
+
+        { position: "CDM", x: 38, y: 57 },
+        { position: "CDM", x: 62, y: 57 },
+
+        { position: "LW", x: 18, y: 36 },
+        { position: "CAM", x: 50, y: 36 },
+        { position: "RW", x: 82, y: 36 },
+
+        { position: "ST", x: 50, y: 16 }
+    ],
+
+
+    "4-4-2": [
+        { position: "GK", x: 50, y: 91 },
+
+        { position: "LB", x: 17, y: 73 },
+        { position: "CB", x: 38, y: 76 },
+        { position: "CB", x: 62, y: 76 },
+        { position: "RB", x: 83, y: 73 },
+
+        { position: "LM", x: 15, y: 50 },
+        { position: "CM", x: 38, y: 54 },
+        { position: "CM", x: 62, y: 54 },
+        { position: "RM", x: 85, y: 50 },
+
+        { position: "ST", x: 40, y: 20 },
+        { position: "ST", x: 60, y: 20 }
+    ],
+
+
+    "4-3-2-1": [
+        { position: "GK", x: 50, y: 91 },
+
+        { position: "LB", x: 17, y: 73 },
+        { position: "CB", x: 38, y: 76 },
+        { position: "CB", x: 62, y: 76 },
+        { position: "RB", x: 83, y: 73 },
+
+        { position: "CM", x: 28, y: 55 },
+        { position: "CM", x: 50, y: 59 },
+        { position: "CM", x: 72, y: 55 },
+
+        { position: "CAM", x: 38, y: 33 },
+        { position: "CAM", x: 62, y: 33 },
+
+        { position: "ST", x: 50, y: 14 }
+    ],
+
+
+    "3-5-2": [
+        { position: "GK", x: 50, y: 91 },
+
+        { position: "CB", x: 25, y: 76 },
+        { position: "CB", x: 50, y: 79 },
+        { position: "CB", x: 75, y: 76 },
+
+        { position: "LM", x: 10, y: 53 },
+        { position: "CM", x: 30, y: 56 },
+        { position: "CDM", x: 50, y: 61 },
+        { position: "CM", x: 70, y: 56 },
+        { position: "RM", x: 90, y: 53 },
+
+        { position: "ST", x: 40, y: 20 },
+        { position: "ST", x: 60, y: 20 }
+    ]
+
+};
+
+
+/* =====================================================
    PAGE SYSTEM
-========================= */
+===================================================== */
 
 function showPage(pageName) {
 
     document
-        .getElementById("home")
-        .classList.add("hidden");
-
-    document
-        .getElementById("packs")
-        .classList.add("hidden");
-
-    document
-        .getElementById("collection")
-        .classList.add("hidden");
-
-    document
-        .getElementById("manage")
-        .classList.add("hidden");
+        .querySelectorAll(".page")
+        .forEach(page => {
+            page.classList.add("hidden");
+        });
 
 
     document
@@ -515,91 +1229,113 @@ function showPage(pageName) {
 
 
     if (pageName === "collection") {
-
         displayCollection();
-
     }
 
 
     if (pageName === "manage") {
-
         displayManageCards();
+    }
 
+
+    if (pageName === "team") {
+        displayTeam();
+        displayTeamSelection();
     }
 
 }
 
 
-/* =========================
+/* =====================================================
+   MONEY FORMAT
+===================================================== */
+
+function formatMoney(value) {
+
+    if (value >= 1000) {
+        return "€" + (value / 1000).toFixed(1) + "B";
+    }
+
+    if (value >= 1) {
+        return "€" + value.toFixed(1) + "M";
+    }
+
+    return "€" + (value * 1000).toFixed(0) + "K";
+
+}
+
+
+/* =====================================================
    COINS
-========================= */
+===================================================== */
 
 function updateCoins() {
 
     document
         .getElementById("coins")
         .textContent =
-        coins.toLocaleString();
+        formatMoney(coins);
 
 }
 
 
-/* =========================
+/* =====================================================
    OPEN PACK
-========================= */
+===================================================== */
 
 function openPack() {
 
-    const packPrice = 5000000;
+    const price = 5.0;
 
 
-    if (coins < packPrice) {
+    if (coins < price) {
 
-        alert(
-            "You don't have enough coins!"
-        );
+        alert("You don't have enough coins.");
 
         return;
-
     }
 
 
-    coins -= packPrice;
+    coins -= price;
 
 
-    const randomIndex =
-        Math.floor(
-            Math.random() *
-            players.length
-        );
+    const randomPlayer =
+        players[
+            Math.floor(
+                Math.random() * players.length
+            )
+        ];
 
 
-    const player =
-        players[randomIndex];
-
-
-    collection.push(player);
+    collection.push(randomPlayer);
 
 
     updateCoins();
 
-
-    displayNewCard(player);
+    displayNewCard(randomPlayer);
 
 }
 
 
-/* =========================
-   DISPLAY NEW CARD
-========================= */
+/* =====================================================
+   CARD HTML
+===================================================== */
 
-function displayNewCard(player) {
+function createCard(player, duplicateCount = 0) {
 
-    document
-        .getElementById("newCard")
-        .innerHTML = `
+    return `
 
         <div class="card">
+
+            ${
+                duplicateCount > 1
+                ?
+                `<div class="duplicate-count">
+                    ${duplicateCount}
+                </div>`
+                :
+                ""
+            }
 
             <div class="card-top">
 
@@ -636,7 +1372,9 @@ function displayNewCard(player) {
 
 
             <div class="price">
-                💰 ${formatMoney(player.price)}
+
+                ${formatMoney(player.price)}
+
             </div>
 
         </div>
@@ -646,9 +1384,52 @@ function displayNewCard(player) {
 }
 
 
-/* =========================
+/* =====================================================
+   NEW PACK CARD
+===================================================== */
+
+function displayNewCard(player) {
+
+    document
+        .getElementById("newCard")
+        .innerHTML =
+        createCard(player);
+
+}
+
+
+/* =====================================================
+   GROUP COLLECTION
+===================================================== */
+
+function getGroupedCollection() {
+
+    const grouped = {};
+
+    collection.forEach(player => {
+
+        if (!grouped[player.name]) {
+
+            grouped[player.name] = {
+                player: player,
+                count: 0
+            };
+
+        }
+
+        grouped[player.name].count++;
+
+    });
+
+
+    return Object.values(grouped);
+
+}
+
+
+/* =====================================================
    COLLECTION
-========================= */
+===================================================== */
 
 function displayCollection() {
 
@@ -661,7 +1442,7 @@ function displayCollection() {
     if (collection.length === 0) {
 
         container.innerHTML =
-            "<p>You don't have any cards yet.</p>";
+            "<p>Your collection is empty.</p>";
 
         return;
 
@@ -671,100 +1452,22 @@ function displayCollection() {
     container.innerHTML = "";
 
 
-    const grouped = {};
+    getGroupedCollection().forEach(data => {
 
-
-    collection.forEach(player => {
-
-        if (!grouped[player.name]) {
-
-            grouped[player.name] = {
-
-                player: player,
-
-                count: 0
-
-            };
-
-        }
-
-        grouped[player.name].count++;
-
-    });
-
-
-    Object.values(grouped).forEach(data => {
-
-        const player = data.player;
-
-        const count = data.count;
-
-
-        container.innerHTML += `
-
-            <div class="card">
-
-                ${
-                    count > 1
-                    ?
-                    `<div class="duplicate-count">
-                        ${count}
-                    </div>`
-                    :
-                    ""
-                }
-
-
-                <div class="card-top">
-
-                    <div>
-
-                        <div class="rating">
-                            ${player.rating}
-                        </div>
-
-                        <div class="position">
-                            ${player.position}
-                        </div>
-
-                    </div>
-
-                    <div class="flag">
-                        ${player.flag}
-                    </div>
-
-                </div>
-
-
-                <div>
-
-                    <div class="player-name">
-                        ${player.name}
-                    </div>
-
-                    <div class="team">
-                        ${player.team}
-                    </div>
-
-                </div>
-
-
-                <div class="price">
-                    💰 ${formatMoney(player.price)}
-                </div>
-
-            </div>
-
-        `;
+        container.innerHTML +=
+            createCard(
+                data.player,
+                data.count
+            );
 
     });
 
 }
 
 
-/* =========================
+/* =====================================================
    MANAGE CARDS
-========================= */
+===================================================== */
 
 function displayManageCards() {
 
@@ -777,7 +1480,7 @@ function displayManageCards() {
     if (collection.length === 0) {
 
         container.innerHTML =
-            "<p>You don't have any cards to manage.</p>";
+            "<p>You don't have any cards.</p>";
 
         return;
 
@@ -787,95 +1490,47 @@ function displayManageCards() {
     container.innerHTML = "";
 
 
-    const grouped = {};
-
-
-    collection.forEach(player => {
-
-        if (!grouped[player.name]) {
-
-            grouped[player.name] = {
-
-                player: player,
-
-                count: 0
-
-            };
-
-        }
-
-        grouped[player.name].count++;
-
-    });
-
-
-    Object.values(grouped).forEach(data => {
+    getGroupedCollection().forEach(data => {
 
         const player = data.player;
 
         const count = data.count;
 
 
+        const isInTeam =
+            Object.values(team)
+            .includes(player.name);
+
+
         container.innerHTML += `
 
-            <div class="card">
+            <div>
 
-                ${
-                    count > 1
-                    ?
-                    `<div class="duplicate-count">
-                        ${count}
-                    </div>`
-                    :
-                    ""
-                }
+                ${createCard(player, count)}
 
+                <div class="card-actions">
 
-                <div class="card-top">
+                    ${
+                        isInTeam
+                        ?
+                        `<button
+                            disabled
+                            style="opacity:.5">
 
-                    <div>
+                            In Team
 
-                        <div class="rating">
-                            ${player.rating}
-                        </div>
+                        </button>`
+                        :
+                        `<button
+                            class="sell-button"
+                            onclick="sellCard('${player.name}')">
 
-                        <div class="position">
-                            ${player.position}
-                        </div>
+                            Sell 1 Card
 
-                    </div>
-
-                    <div class="flag">
-                        ${player.flag}
-                    </div>
+                        </button>`
+                    }
 
                 </div>
-
-
-                <div>
-
-                    <div class="player-name">
-                        ${player.name}
-                    </div>
-
-                    <div class="team">
-                        ${player.team}
-                    </div>
-
-                </div>
-
-
-                <div class="price">
-                    💰 ${formatMoney(player.price)}
-                </div>
-
-
-                <button
-                    onclick="sellCard('${player.name}')">
-
-                    Sell Card
-
-                </button>
 
             </div>
 
@@ -886,73 +1541,447 @@ function displayManageCards() {
 }
 
 
-/* =========================
+/* =====================================================
    SELL CARD
-========================= */
+===================================================== */
 
 function sellCard(playerName) {
 
-    const index =
-        collection.findIndex(
-            player =>
-                player.name === playerName
+    const player =
+        collection.find(
+            p => p.name === playerName
         );
 
 
-    if (index === -1) {
+    if (!player) return;
+
+
+    if (
+        Object.values(team)
+        .includes(playerName)
+    ) {
+
+        alert(
+            "Remove this player from your team first."
+        );
 
         return;
 
     }
 
 
-    const player =
-        collection[index];
+    const index =
+        collection.findIndex(
+            p => p.name === playerName
+        );
 
 
-    coins += player.price;
+    if (index === -1) return;
 
 
     collection.splice(index, 1);
 
 
-    updateCoins();
+    coins += player.price;
 
+
+    updateCoins();
 
     displayManageCards();
 
+}
 
-    displayCollection();
+
+/* =====================================================
+   CHANGE FORMATION
+===================================================== */
+
+function changeFormation() {
+
+    displayTeam();
+
+}
 
 
-    alert(
-        player.name +
-        " sold for " +
-        formatMoney(player.price)
+/* =====================================================
+   TEAM
+===================================================== */
+
+function displayTeam() {
+
+    const pitch =
+        document.getElementById("pitch");
+
+
+    const formation =
+        document.getElementById(
+            "formation"
+        ).value;
+
+
+    pitch.innerHTML = "";
+
+
+    formations[formation].forEach(
+        (slot, index) => {
+
+            const playerName =
+                team[index];
+
+
+            const player =
+                players.find(
+                    p => p.name === playerName
+                );
+
+
+            const element =
+                document.createElement("div");
+
+
+            element.className =
+                "team-slot";
+
+
+            element.style.left =
+                slot.x + "%";
+
+
+            element.style.top =
+                slot.y + "%";
+
+
+            if (player) {
+
+                element.innerHTML = `
+
+                    <div class="slot-position">
+                        ${slot.position}
+                    </div>
+
+                    <div class="slot-name">
+                        ${player.name}
+                    </div>
+
+                    <div class="slot-rating">
+                        ${player.rating}
+                    </div>
+
+                    <button
+                        class="remove-player"
+                        onclick="removeFromTeam(${index})">
+
+                        Remove
+
+                    </button>
+
+                `;
+
+            } else {
+
+                element.innerHTML = `
+
+                    <div class="slot-position">
+                        ${slot.position}
+                    </div>
+
+                    <div class="empty-slot">
+                        Empty
+                    </div>
+
+                `;
+
+            }
+
+
+            pitch.appendChild(element);
+
+        }
     );
 
-}
 
-
-/* =========================
-   MONEY FORMAT
-========================= */
-
-function formatMoney(amount) {
-
-    return "$" +
-        amount.toLocaleString();
+    updateTeamStats();
 
 }
 
 
-/* =========================
+/* =====================================================
+   TEAM SELECTION
+===================================================== */
+
+function displayTeamSelection() {
+
+    const container =
+        document.getElementById(
+            "teamSelection"
+        );
+
+
+    container.innerHTML = "";
+
+
+    if (collection.length === 0) {
+
+        container.innerHTML =
+            "<p>Open a pack to get players.</p>";
+
+        return;
+
+    }
+
+
+    getGroupedCollection().forEach(data => {
+
+        const player = data.player;
+
+
+        const alreadyInTeam =
+            Object.values(team)
+            .includes(player.name);
+
+
+        if (alreadyInTeam) return;
+
+
+        const wrapper =
+            document.createElement("div");
+
+
+        wrapper.innerHTML = `
+
+            ${createCard(
+                player,
+                data.count
+            )}
+
+            <button
+                class="team-button"
+                onclick="addToTeam('${player.name}')">
+
+                Add To Team
+
+            </button>
+
+        `;
+
+
+        container.appendChild(wrapper);
+
+    });
+
+}
+
+
+/* =====================================================
+   ADD PLAYER
+===================================================== */
+
+function addToTeam(playerName) {
+
+    const formation =
+        document.getElementById(
+            "formation"
+        ).value;
+
+
+    const slots =
+        formations[formation];
+
+
+    const player =
+        players.find(
+            p => p.name === playerName
+        );
+
+
+    if (!player) return;
+
+
+    /*
+        Find an empty position that
+        matches the player's position.
+    */
+
+    let slotIndex =
+        slots.findIndex(
+            (slot, index) =>
+                !team[index] &&
+                slot.position === player.position
+        );
+
+
+    /*
+        If there isn't an exact match,
+        allow some similar positions.
+    */
+
+    if (slotIndex === -1) {
+
+        const compatible = {
+
+            GK: ["GK"],
+
+            CB: ["CB"],
+
+            LB: ["LB"],
+
+            RB: ["RB"],
+
+            CDM: ["CDM", "CM"],
+
+            CM: ["CM", "CDM", "CAM"],
+
+            CAM: ["CAM", "CM"],
+
+            LW: ["LW", "LM"],
+
+            RW: ["RW", "RM"],
+
+            ST: ["ST"]
+
+        };
+
+
+        const allowed =
+            compatible[player.position] ||
+            [];
+
+
+        slotIndex =
+            slots.findIndex(
+                (slot, index) =>
+                    !team[index] &&
+                    allowed.includes(
+                        slot.position
+                    )
+            );
+
+    }
+
+
+    if (slotIndex === -1) {
+
+        alert(
+            "There isn't an open suitable position in this formation."
+        );
+
+        return;
+
+    }
+
+
+    team[slotIndex] =
+        player.name;
+
+
+    displayTeam();
+
+    displayTeamSelection();
+
+}
+
+
+/* =====================================================
+   REMOVE PLAYER
+===================================================== */
+
+function removeFromTeam(index) {
+
+    delete team[index];
+
+
+    displayTeam();
+
+    displayTeamSelection();
+
+}
+
+
+/* =====================================================
+   TEAM STATS
+===================================================== */
+
+function updateTeamStats() {
+
+    const teamPlayers = [];
+
+
+    Object.values(team).forEach(
+        playerName => {
+
+            const player =
+                players.find(
+                    p => p.name === playerName
+                );
+
+
+            if (player) {
+                teamPlayers.push(player);
+            }
+
+        }
+    );
+
+
+    if (teamPlayers.length === 0) {
+
+        document
+            .getElementById("teamRating")
+            .textContent = "0";
+
+
+        document
+            .getElementById("teamValue")
+            .textContent = "€0";
+
+        return;
+
+    }
+
+
+    const totalRating =
+        teamPlayers.reduce(
+            (sum, player) =>
+                sum + player.rating,
+            0
+        );
+
+
+    const totalValue =
+        teamPlayers.reduce(
+            (sum, player) =>
+                sum + player.price,
+            0
+        );
+
+
+    const average =
+        totalRating /
+        teamPlayers.length;
+
+
+    document
+        .getElementById("teamRating")
+        .textContent =
+        average.toFixed(1);
+
+
+    document
+        .getElementById("teamValue")
+        .textContent =
+        formatMoney(totalValue);
+
+}
+
+
+/* =====================================================
    START
-========================= */
+===================================================== */
 
 updateCoins();
 
 </script>
 
 </body>
+
 </html>
