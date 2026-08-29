@@ -4110,21 +4110,11 @@ const QUICK_SELL_FEE =
    GAME STATE
 ===================================================== */
 
-let coins =
-    Number(
-        localStorage.getItem(
-            "soccerCoins"
-        )
-    );
+let coins = Number(localStorage.getItem("soccerCoins"));
 
-
-if (
-    !Number.isFinite(coins)
-) {
-
-    coins =
-        25;
-
+if (!Number.isFinite(coins) || coins <= 0) {
+    coins = 25;
+    localStorage.setItem("soccerCoins", coins);
 }
 
 
